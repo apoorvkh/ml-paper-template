@@ -1,0 +1,11 @@
+\makeatletter
+\ifcvpr \def\input@path{{./confs/cvpr}} \fi
+\ifeccv \ifrebuttal
+        \def\input@path{{./confs/cvpr}} \else
+        \def\input@path{{./confs/eccv}} \fi
+\ifneurips \def\input@path{{./confs/neurips}} \fi
+\ificlr \def\input@path{{./confs/iclr}} \fi
+\ificml \def\input@path{{./confs/icml}} \fi
+\ifemnlp \def\input@path{{./confs/emnlp}} \fi
+\ifacl \def\input@path{{./confs/acl}} \fi
+\makeatother

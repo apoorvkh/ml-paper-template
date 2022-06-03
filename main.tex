@@ -1,0 +1,50 @@
+\pdfoutput=1
+
+\input{confs/compile_vars}
+\input{_constants}
+\input{confs/use_conf_style}
+
+\input{_class_options}
+\ifeccv \ifrebuttal
+      \documentclass{article} \else
+      \documentclass{llncs} \fi
+\else \documentclass{article} \fi
+
+\input{_preamble}
+\input{_packages}
+\input{_macros}
+\input{_title}
+
+% \makeatletter
+% \newcommand*{\addFileDependency}[1]{
+%   \typeout{(#1)}
+%   \@addtofilelist{#1}
+%   \IfFileExists{#1}{}{\typeout{No file #1.}}
+% }
+% \makeatother
+
+% \ifsupplementary
+% \externaldocument{main}
+% \addFileDependency{main.tex}
+% \addFileDependency{main.aux}
+% \fi
+
+\begin{document}
+\maketitle
+\ifcvpr \ifrebuttal \thispagestyle{empty} \appendix \fi \fi
+
+%% CONTENT
+\ifpaper \input{0a_contents} \fi
+\ifsupplementary \input{12_appendix} \fi
+\ifrebuttal \input{13_rebuttal} \fi
+
+%% BIBLIOGRAPHY
+{
+\input{_bibstyle}
+\bibliography{anthology, 11_references}
+}
+
+%% APPENDIX
+\ifpaper \ifarxiv \clearpage \input{12_appendix} \fi \fi
+
+\end{document}
