@@ -1,9 +1,13 @@
-\rebuttal % paper, supplementary, rebuttal
-\review  % review, arxiv, final
-\eccv  % cvpr, iccv, eccv, neurips, icml, iclr, emnlp, acl, naacl
+\paper % paper, supplementary, rebuttal
+\review % review, arxiv, final
+\cvpr % cvpr, iccv, eccv, neurips, icml, iclr, emnlp, acl, naacl
+\twentyfour % twentytwo, twentythree, twentyfour
 
+\def\conference{cvpr}
 \def\paperID{0000}
-\def\conferenceYear{2022}
+\def\conferenceYear{2024}
+\def\paperStyle{rebuttal}
+\def\paperMode{review}
 
 \def\paperTitle{Paper Title}
 \def\runningTitle{Rolling title}
@@ -18,3 +22,7 @@
 \def\runningAuthor{F. Author et al.}
 \def\instituteBlock{}
 \def\keywords{}
+
+\makeatletter
+\def\input@path{{./confs/\conference/\conferenceYear}}
+\makeatother

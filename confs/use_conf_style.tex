@@ -1,11 +1,122 @@
 \makeatletter
-\ifcvpr \def\input@path{{./confs/cvpr}} \fi
-\ifeccv \ifrebuttal
-        \def\input@path{{./confs/cvpr}} \else
-        \def\input@path{{./confs/eccv}} \fi
-\ifneurips \def\input@path{{./confs/neurips}} \fi
-\ificlr \def\input@path{{./confs/iclr}} \fi
-\ificml \def\input@path{{./confs/icml}} \fi
-\ifemnlp \def\input@path{{./confs/emnlp}} \fi
-\ifacl \def\input@path{{./confs/acl}} \fi
+% \def\input@path{{./confs}}
+
+% \newcommand*{\newrobustcmd}{}
+% \protected\def\newrobustcmd{\@star@or@long\etb@new@command}
+
+% \def\etb@new@command#1{\@testopt{\etb@newcommand#1}0}
+
+% \def\etb@newcommand#1[#2]{%
+%   \@ifnextchar[%]
+%     {\etb@xargdef#1[#2]}
+%     {\ifx\l@ngrel@x\relax
+%        \let\l@ngrel@x\protected
+%      \else
+%        \protected\def\l@ngrel@x{\protected\long}%
+%      \fi
+%      \@argdef#1[#2]}}
+
+% \newrobustcmd{\ifdefstring}[2]{%
+%   \ifdefmacro{#1}
+%     {\begingroup
+%      \edef\etb@tempa{\expandafter\strip@prefix\meaning#1}%
+%      \edef\etb@tempb{\detokenize{#2}}%
+%      \ifx\etb@tempa\etb@tempb
+%        \aftergroup\@firstoftwo
+%      \else
+%        \aftergroup\@secondoftwo
+%      \fi
+%      \endgroup}
+%     {\@secondoftwo}}
+
+% \newcommand{\ifdefstring}[3]{%
+%     \begingroup
+%     \edef\temp@a{\expandafter\strip@prefix\meaning#1}%
+%     \edef\temp@b{\detokenize{#2}}%
+
+%     \ifx\temp@a\temp@b%
+%         \expanded{#3}
+%     \else
+
+%     \fi%
+% \endgroup
+% }
+
+% \ifdefstring{\conference}{cvpr}{
+%     \ifdefstring{\conferenceYear}{2022}{\def\input@path{{./confs/cvpr/2022}}}
+%     \ifdefstring{\conferenceYear}{2024}{\def\input@path{{./confs/cvpr/2024}}}
+% }
+
+% \ifdefstring{\conference}{eccv}{
+%     \ifdefstring{\conferenceYear}{2022}{\def\input@path{{./confs/eccv/2022}}}
+%     \ifdefstring{\conferenceYear}{2024}{\def\input@path{{./confs/eccv/2024}}}
+% }
+
+% \ifdefstring{\conference}{neurips}{
+%     \def\input@path{{./confs/neurips}}
+% }
+
+% \ifdefstring{\conference}{iclr}{
+%     \def\input@path{{./confs/iclr}} 
+% }
+
+% \ifdefstring{\conference}{icml}{
+%     \def\input@path{{./confs/icml}} 
+% }
+
+% \ifdefstring{\conference}{emnlp}{
+%     \def\input@path{{./confs/emnlp}} 
+% }
+
+% \ifdefstring{\conference}{acl}{
+%     \ifdefstring{\conferenceYear}{2023}{\def\input@path{{./confs/acl/2023}}}{}
+%     \ifdefstring{\conferenceYear}{2024}{\def\input@path{{./confs/acl/2024}}}{}
+% }
+
+
+\ifcvpr 
+    \iftwentytwo
+        \def\input@path{{./confs/cvpr/2022}}
+    \fi
+    \iftwentyfour
+        \def\input@path{{./confs/cvpr/2024}}
+    \fi
+\fi
+\ifeccv 
+    \iftwentytwo
+        \ifrebuttal 
+            \def\input@path{{./confs/cvpr/2022}}
+        \else
+            \def\input@path{{./confs/eccv/2022}} 
+        \fi 
+    \fi
+    \iftwentyfour
+        \ifrebuttal 
+            \def\input@path{{./confs/cvpr/2024}}
+        \else
+            \def\input@path{{./confs/eccv/2024}} 
+        \fi 
+    \fi
+\fi
+\ifneurips 
+    \def\input@path{{./confs/neurips}} 
+\fi
+\ificlr 
+    \def\input@path{{./confs/iclr}} 
+\fi
+\ificml 
+    \def\input@path{{./confs/icml}} 
+\fi
+\ifemnlp 
+    \def\input@path{{./confs/emnlp}} 
+\fi
+\ifacl 
+    \iftwentythree
+        \def\input@path{{./confs/acl/2023}} 
+    \fi
+    \iftwentyfour
+        \def\input@path{{./confs/acl/2024}}
+    \fi
+\fi
+
 \makeatother

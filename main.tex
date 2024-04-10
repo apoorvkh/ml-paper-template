@@ -2,18 +2,14 @@
 
 \input{confs/compile_vars}
 \input{_constants}
-\input{confs/use_conf_style}
 
+\input{confs/use_conf_style}
 \input{_class_options}
-\ifeccv \ifrebuttal
-      \documentclass{article} \else
-      \documentclass{llncs} \fi
-\else \documentclass{article} \fi
+\documentclass{\dclass}
 
 \input{_preamble}
 \input{_packages}
 \input{_macros}
-\input{_title}
 
 % \makeatletter
 % \newcommand*{\addFileDependency}[1]{
@@ -30,6 +26,7 @@
 % \fi
 
 \begin{document}
+\input{_title}
 \maketitle
 \ifcvpr \ifrebuttal \thispagestyle{empty} \appendix \fi \fi
 
