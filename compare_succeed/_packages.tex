@@ -1,0 +1,48 @@
+%% Also see "confs/.../_preamble.tex" for packages imported in the conference template
+
+% \usepackage{latexsym}
+% \usepackage[T1]{fontenc} % Change for other char sets
+% \usepackage[utf8]{inputenc}
+% \usepackage{microtype}
+% \usepackage{inconsolata}
+% \usepackage{graphicx}
+% \usepackage{amsmath}
+% \usepackage{amssymb}
+% \usepackage{booktabs}
+\usepackage{xcolor}
+% \usepackage{xstring}
+
+% ** Add more packages here **
+
+% Unfortunately, this package interferes with arxiv's stamp
+\iffinal \usepackage[accsupp]{axessibility} \fi
+
+%%
+
+%
+% \usepackage{xr-hyper}
+%
+% \makeatletter
+% \newcommand*{\addFileDependency}[1]{
+%   \typeout{(#1)}
+%   \@addtofilelist{#1}
+%   \IfFileExists{#1}{}{\typeout{No file #1.}}
+% }
+% \makeatother
+%
+% \newcommand*{\myexternaldocument}[1]{
+%     \externaldocument{#1}
+%     \addFileDependency{#1.tex}
+%     \addFileDependency{#1.aux}
+% }
+%
+
+\definecolor{cvprblue}{rgb}{0.21,0.49,0.74}
+\usepackage[pagebackref,breaklinks,colorlinks,citecolor=cvprblue]{hyperref}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage[capitalize]{cleveref}
+\crefname{section}{Sec.}{Secs.}
+\crefname{table}{Table}{Tables}
+\Crefname{figure}{Figure}{Figures}
+\crefname{figure}{Fig.}{Figs.}
