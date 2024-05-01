@@ -1,0 +1,6 @@
+## Remove all submodules
+aclpubcheck/
+compare_succeed/
+CVPR-2024-main/
+cvpr-latex-template/
+ml-paper-template/
