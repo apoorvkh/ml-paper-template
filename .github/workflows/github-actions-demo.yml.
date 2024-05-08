@@ -1,0 +1,26 @@
+name: Download and Extract CVPR-2024 and Clone ml_paper_template
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  download_and_clone:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      # Step to download and extract CVPR-2024
+      - name: Download and Extract CVPR-2024
+        run: |
+          wget https://github.com/cvpr-org/author-kit/archive/refs/tags/CVPR2024-v2.tar.gz
+          mkdir -p ./CVPR-2024-main
+          tar -xvf CVPR2024-v2.tar.gz -C ./CVPR-2024-main --strip-components=1
+          rm CVPR2024-v2.tar.gz
+      
+      # Step to clone ml_paper_template
+      - name: Clone ml_paper_template
+        run: git clone https://github.com/apoorvkh/ml-paper-template ./ml_paper_template
+
