@@ -1,4 +1,4 @@
-name: Download and Extract CVPR-2024 and Clone ml_paper_template
+name: Copy and Replace
 
 on:
   push:
@@ -6,21 +6,46 @@ on:
       - main
 
 jobs:
-  download_and_clone:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v2
-      
-      # Step to download and extract CVPR-2024
-      - name: Download and Extract CVPR-2024
+
+      - name: Download and extract CVPR-2024-main
         run: |
-          wget https://github.com/cvpr-org/author-kit/archive/refs/tags/CVPR2024-v2.tar.gz
-          mkdir -p ./CVPR-2024-main
-          tar -xvf CVPR2024-v2.tar.gz -C ./CVPR-2024-main --strip-components=1
+          curl -L https://github.com/cvpr-org/author-kit/archive/refs/tags/CVPR2024-v2.tar.gz -o CVPR2024-v2.tar.gz
+          tar -xf CVPR2024-v2.tar.gz
           rm CVPR2024-v2.tar.gz
-      
-      # Step to clone ml_paper_template
-      - name: Clone ml_paper_template
-        run: git clone https://github.com/apoorvkh/ml-paper-template ./ml_paper_template
+
+      - name: Clone ml-paper-template
+        run: |
+          git clone https://github.com/apoorvkh/ml-paper-template.git
+
+      - name: Copy Everything
+        run: |
+        cp -r CVPR-2024-main/sec ml-paper-template/
+        cp -f CVPR-2024-main/main.tex ml-paper-template/
+        cp -f CVPR-2024-main/cvpr.sty ml-paper-template/_packages.tex
+
+      - name: Render PDF
+        run: |
+          cd CVPR-2024-main
+          latexmk -pdf main.tex
+          cd ../ml-paper-template
+          latexmk -pdf main.tex
+          cd ..
+
+      - name: Convert PDF to PPM
+        run: |
+          pdftoppm -jpeg -r 300 CVPR-2024-main/main.pdf output
+          pdftoppm -jpeg -r 300 ml-paper-template/main.pdf output_temp
+
+      - name: Compare images
+        run: |
+          for i in $(seq 1 5); do
+            magick compare output-${i}.jpg output_temp-${i}.jpg diff_${i}.jpg
+          done
+
 
