@@ -23,7 +23,7 @@ jobs:
         run: |
           git clone https://github.com/apoorvkh/ml-paper-template.git
 
-      - name: Copy Everything
+      - name: Copy contents from CVPR 2024
         run: |
           cp -r CVPR-2024-main/sec ml-paper-template/
           cp -f CVPR-2024-main/main.tex ml-paper-template/
