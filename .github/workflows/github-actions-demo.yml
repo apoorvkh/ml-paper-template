@@ -10,8 +10,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
       - name: Checkout repository
         uses: actions/checkout@v2
+
+      - name: Generate PDF document
+        uses: hspaans/latexmk-action@v1
+        with:
+          format: pdf
+          filename: main.tex
 
       - name: Download and extract CVPR-2024-main
         run: |
@@ -30,13 +37,17 @@ jobs:
           cp -f CVPR-2024-main/main.tex ml-paper-template/
           cp -f CVPR-2024-main/cvpr.sty ml-paper-template/_packages.tex
 
-      - name: Render PDF
-        run: |
-          cd CVPR-2024-main
-          latexmk -pdf main.tex
-          cd ../ml-paper-template
-          latexmk -pdf main.tex
-          cd ..
+      - name: Render PDF cvpr2024
+        uses: hspaans/latexmk-action@v1
+        with:
+          format: pdf
+          filename: CVPR-2024-main/main.tex
+      
+      - name: Render PDF ml-paper
+        uses: hspaans/latexmk-action@v1
+        with:
+          format: pdf
+          filename: ml-paper-template/main.tex  
 
       - name: Convert PDF to PPM
         run: |
