@@ -31,17 +31,23 @@ jobs:
           cp -f CVPR-2024-main/main.tex ml-paper-template/
           cp -f CVPR-2024-main/cvpr.sty ml-paper-template/_packages.tex
 
+      - name: Rename original cvpr conference file 
+        run: mv CVPR-2024-main/main.tex CVPR-2024-main/cvpr_template.tex
+
       - name: Render PDF cvpr2024
         uses: hspaans/latexmk-action@v1
         with:
           format: pdf
-          filename: CVPR-2024-main/main.tex
+          filename: CVPR-2024-main/cvpr_template.tex
+
+      - name: Rename original ml-paper conference file 
+        run: mv ml-paper-template/main.tex ml-paper-template/ml_template.tex
       
       - name: Render PDF ml-paper
         uses: hspaans/latexmk-action@v1
         with:
           format: pdf
-          filename: ml-paper-template/main.tex  
+          filename: ml-paper-template/ml_template.tex  
 
       - name: Convert PDF to PPM
         run: |
