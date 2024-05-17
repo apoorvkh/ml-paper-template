@@ -14,12 +14,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Generate PDF document
-        uses: hspaans/latexmk-action@v1
-        with:
-          format: pdf
-          filename: main.tex
-
       - name: Download and extract CVPR-2024-main
         run: |
           curl -L https://github.com/cvpr-org/author-kit/archive/refs/tags/CVPR2024-v2.tar.gz -o CVPR2024-v2.tar.gz
