@@ -64,18 +64,17 @@ jobs:
           format: pdf
           filename: -cd ./CVPR-2024-main/main.tex
 
-      - name: Rename original ml-paper conference file 
-        run: |
-          cd ..
-          mv ml-paper-template/main.tex ml-paper-template/ml_template.tex
-          cd ml-paper-template
-      
+      # - name: Rename original ml-paper conference file 
+      #   run: |
+      #     cd ..
+      #     mv ml-paper-template/main.tex ml-paper-template/ml_template.tex
+      #     cd ml-paper-template
       
       - name: Render PDF ml-paper
         uses: hspaans/latexmk-action@v1
         with:
           format: pdf
-          filename: ml_template.tex  
+          filename: -cd ml-paper-template/ml_template.tex  
 
       # - name: Render PDF acl2024
       #   uses: hspaans/latexmk-action@v1
