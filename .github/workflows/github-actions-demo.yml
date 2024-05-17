@@ -21,27 +21,27 @@ jobs:
           rm CVPR2024-v2.tar.gz
           mv author-kit-CVPR2024-v2/ CVPR-2024-main
 
-      - name: download the ACL template zip and upload it 
-        uses: wow-actions/download-upload@v1
-        with:
-          url: https://github.com/acl-org/acl-style-files/archive/refs/heads/master.zip
-          filename: acl-template
+      # - name: download the ACL template zip and upload it 
+      #   uses: wow-actions/download-upload@v1
+      #   with:
+      #     url: https://github.com/acl-org/acl-style-files/archive/refs/heads/master.zip
+      #     filename: acl-template
       
-      - name: Uncompress ACL zip
-        uses: TonyBogdanov/zip@1.0
-        with:
-          args: unzip -qq ./acl-template.zip -d ./acl-template
+      # - name: Uncompress ACL zip
+      #   uses: TonyBogdanov/zip@1.0
+      #   with:
+      #     args: unzip -qq ./acl-template.zip -d ./acl-template
 
-      - name: download the ICLR template zip and upload it 
-        uses: wow-actions/download-upload@v1
-        with:
-          url: https://github.com/ICLR/Master-Template/raw/master/iclr2024.zip
-          filename: iclr-template
+      # - name: download the ICLR template zip and upload it 
+      #   uses: wow-actions/download-upload@v1
+      #   with:
+      #     url: https://github.com/ICLR/Master-Template/raw/master/iclr2024.zip
+      #     filename: iclr-template
 
-      - name: Download and extract ICLR-2024-main
-        uses: TonyBogdanov/zip@1.0
-        with:
-          args: unzip -qq ./iclr-template.zip -d ./iclr-template
+      # - name: Download and extract ICLR-2024-main
+      #   uses: TonyBogdanov/zip@1.0
+      #   with:
+      #     args: unzip -qq ./iclr-template.zip -d ./iclr-template
 
       - name: Clone ml-paper-template
         run: |
