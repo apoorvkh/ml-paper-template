@@ -18,6 +18,7 @@ jobs:
           curl -L https://github.com/cvpr-org/author-kit/archive/refs/tags/CVPR2024-v2.tar.gz -o CVPR2024-v2.tar.gz
           tar -xf CVPR2024-v2.tar.gz
           rm CVPR2024-v2.tar.gz
+          mv author-kit-CVPR2024-v2/ CVPR-2024-main
 
       - name: Clone ml-paper-template
         run: |
