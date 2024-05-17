@@ -3,7 +3,7 @@ name: Copy and Replace
 on:
   push:
     branches:
-      - main
+      - cvpr2024
 
 jobs:
   build:
