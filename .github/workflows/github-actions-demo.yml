@@ -62,7 +62,7 @@ jobs:
         uses: hspaans/latexmk-action@v1
         with:
           format: pdf
-          filename: ./CVPR-2024/main.tex
+          filename: -cd ./CVPR-2024/main.tex
 
       - name: Rename original ml-paper conference file 
         run: |
