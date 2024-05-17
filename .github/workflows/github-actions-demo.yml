@@ -51,8 +51,8 @@ jobs:
 
       - name: Convert PDF to PPM
         run: |
-          pdftoppm -jpeg -r 300 CVPR-2024-main/main.pdf output
-          pdftoppm -jpeg -r 300 ml-paper-template/main.pdf output_temp
+          pdftoppm -jpeg -r 300 CVPR-2024-main/cvpr_template.pdf output
+          pdftoppm -jpeg -r 300 ml-paper-template/cvpr_template.pdf output_temp
 
       - name: Compare images
         run: |
