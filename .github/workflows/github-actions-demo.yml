@@ -53,16 +53,16 @@ jobs:
           cp -f CVPR-2024-main/main.tex ml-paper-template/
           cp -f CVPR-2024-main/cvpr.sty ml-paper-template/_packages.tex
 
-      - name: Rename original cvpr conference file 
-        run: | 
-          mv CVPR-2024-main/main.tex CVPR-2024-main/cvpr_template.tex
-          cd CVPR-2024-main
+      # - name: Rename original cvpr conference file 
+      #   run: | 
+      #     mv CVPR-2024-main/main.tex CVPR-2024-main/cvpr_template.tex
+      #     cd CVPR-2024-main
 
       - name: Render PDF cvpr2024
         uses: hspaans/latexmk-action@v1
         with:
           format: pdf
-          filename: cvpr_template.tex
+          filename: ./CVPR-2024/main.tex
 
       - name: Rename original ml-paper conference file 
         run: |
