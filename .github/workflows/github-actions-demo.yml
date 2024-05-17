@@ -25,9 +25,9 @@ jobs:
 
       - name: Copy Everything
         run: |
-        cp -r CVPR-2024-main/sec ml-paper-template/
-        cp -f CVPR-2024-main/main.tex ml-paper-template/
-        cp -f CVPR-2024-main/cvpr.sty ml-paper-template/_packages.tex
+          cp -r CVPR-2024-main/sec ml-paper-template/
+          cp -f CVPR-2024-main/main.tex ml-paper-template/
+          cp -f CVPR-2024-main/cvpr.sty ml-paper-template/_packages.tex
 
       - name: Render PDF
         run: |
