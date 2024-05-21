@@ -74,7 +74,7 @@ jobs:
         uses: hspaans/latexmk-action@v1
         with:
           format: pdf
-          filename: -cd ml-paper-template/main.tex  
+          filename: -cd ./ml-paper-template/main.tex  
 
       # - name: Render PDF acl2024
       #   uses: hspaans/latexmk-action@v1
