@@ -49,9 +49,9 @@ jobs:
 
       - name: Copy contents from CVPR 2024
         run: |
-          cp -r CVPR-2024-main/sec ml-paper-template/
-          cp -f CVPR-2024-main/main.tex ml-paper-template/
-          cp -f CVPR-2024-main/cvpr.sty ml-paper-template/_packages.tex
+          cp -r CVPR-2024-main/sec ml-paper-template-testing/
+          cp -f CVPR-2024-main/main.tex ml-paper-template-testing/
+          cp -f CVPR-2024-main/cvpr.sty ml-paper-template-testing/cvpr.sty
 
       # - name: Rename original cvpr conference file 
       #   run: | 
