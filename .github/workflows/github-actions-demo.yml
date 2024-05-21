@@ -45,7 +45,7 @@ jobs:
 
       - name: Clone ml-paper-template
         run: |
-          git clone https://github.com/apoorvkh/ml-paper-template.git
+          git clone https://github.com/jqhc/ml-paper-template-testing
 
       - name: Copy contents from CVPR 2024
         run: |
