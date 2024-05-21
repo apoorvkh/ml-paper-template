@@ -43,7 +43,7 @@ jobs:
       #   with:
       #     args: unzip -qq ./iclr-template.zip -d ./iclr-template
 
-      - name: Clone ml-paper-template
+      - name: Clone ml-paper-template-testing
         run: |
           git clone https://github.com/jqhc/ml-paper-template-testing
 
