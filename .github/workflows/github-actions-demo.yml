@@ -21,18 +21,20 @@ jobs:
           rm CVPR2024-v2.tar.gz
           mv author-kit-CVPR2024-v2/ CVPR-2024-main
 
-      - name: download the ACL template zip and upload it 
-        uses: wow-actions/download-upload@v1
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          url: https://github.com/acl-org/acl-style-files/archive/refs/heads/master.zip
-          dir: ml-paper-automated
-          filename: acl-template
-      
-      - name: Uncompress ACL zip
-        uses: TonyBogdanov/zip@1.0
-        with:
-          args: unzip -qq ./acl-template.zip -d ml-paper-automated
+      # - name: download the ACL template zip and upload it 
+      #   uses: wow-actions/download-upload@v1
+      #   with:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     url: https://github.com/acl-org/acl-style-files/archive/refs/heads/master.zip
+      #     dir: ml-paper-automated
+      #     filename: acl-template
+      - name: Download and extract ACL template zip
+        run: |
+          curl -L https://github.com/acl-org/acl-style-files/archive/refs/heads/master.zip -o acl-template.zip
+          unzip acl-template.zip
+          rm acl-template.zip
+          mv acl-style-files-master/latex acl-template
+          rm -r acl-style-files-master
 
       # - name: download the ICLR template zip and upload it 
       #   uses: wow-actions/download-upload@v1
@@ -82,7 +84,7 @@ jobs:
         uses: hspaans/latexmk-action@v1
         with:
           format: pdf
-          filename: -cd ./acl-template/latex/acl_latex.tex
+          filename: -cd ./acl-template/acl_latex.tex
 
       # - name: Render PDF iclr2024
       #   uses: hspaans/latexmk-action@v1
