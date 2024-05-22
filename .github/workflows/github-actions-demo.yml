@@ -21,16 +21,17 @@ jobs:
           rm CVPR2024-v2.tar.gz
           mv author-kit-CVPR2024-v2/ CVPR-2024-main
 
-      # - name: download the ACL template zip and upload it 
-      #   uses: wow-actions/download-upload@v1
-      #   with:
-      #     url: https://github.com/acl-org/acl-style-files/archive/refs/heads/master.zip
-      #     filename: acl-template
+      - name: download the ACL template zip and upload it 
+        uses: wow-actions/download-upload@v1
+        with:
+          url: https://github.com/acl-org/acl-style-files/archive/refs/heads/master.zip
+          dir: ml-paper-automated
+          filename: acl-template
       
-      # - name: Uncompress ACL zip
-      #   uses: TonyBogdanov/zip@1.0
-      #   with:
-      #     args: unzip -qq ./acl-template.zip -d ./acl-template
+      - name: Uncompress ACL zip
+        uses: TonyBogdanov/zip@1.0
+        with:
+          args: unzip -qq ./acl-template.zip -d ml-paper-automated
 
       # - name: download the ICLR template zip and upload it 
       #   uses: wow-actions/download-upload@v1
@@ -43,15 +44,15 @@ jobs:
       #   with:
       #     args: unzip -qq ./iclr-template.zip -d ./iclr-template
 
-      - name: Clone ml-paper-template-testing
-        run: |
-          git clone git@github.com:jqhc/ml-paper-template-testing.git
+      # - name: Clone ml-paper-template-testing
+      #   run: |
+      #     git clone git@github.com:jqhc/ml-paper-template-testing.git
           
-      - name: Copy contents from CVPR 2024
-        run: |
-          cp -r CVPR-2024-main/sec ml-paper-template-testing/
-          cp -f CVPR-2024-main/main.tex ml-paper-template-testing/
-          cp -f CVPR-2024-main/cvpr.sty ml-paper-template-testing/cvpr.sty
+      # - name: Copy contents from CVPR 2024
+      #   run: |
+      #     cp -r CVPR-2024-main/sec ml-paper-template-testing/
+      #     cp -f CVPR-2024-main/main.tex ml-paper-template-testing/
+      #     cp -f CVPR-2024-main/cvpr.sty ml-paper-template-testing/cvpr.sty
 
       # - name: Rename original cvpr conference file 
       #   run: | 
@@ -70,17 +71,17 @@ jobs:
       #     mv ml-paper-template/main.tex ml-paper-template/ml_template.tex
       #     cd ml-paper-template
       
-      - name: Render PDF ml-paper
-        uses: hspaans/latexmk-action@v1
-        with:
-          format: pdf
-          filename: -cd ./ml-paper-template/main.tex  
-
-      # - name: Render PDF acl2024
+      # - name: Render PDF ml-paper
       #   uses: hspaans/latexmk-action@v1
       #   with:
       #     format: pdf
-      #     filename: acl-template/latex/acl_latex.tex
+      #     filename: -cd ./ml-paper-template/main.tex  
+
+      - name: Render PDF acl2024
+        uses: hspaans/latexmk-action@v1
+        with:
+          format: pdf
+          filename: -cd ./acl-template/latex/acl_latex.tex
 
       # - name: Render PDF iclr2024
       #   uses: hspaans/latexmk-action@v1
@@ -91,12 +92,12 @@ jobs:
       - name: Convert PDF to PPM
         run: |
           pdftoppm -jpeg -r 300 CVPR-2024-main/cvpr_template.pdf output
-          pdftoppm -jpeg -r 300 ml-paper-template/cvpr_template.pdf output_temp
+        # pdftoppm -jpeg -r 300 ml-paper-template/cvpr_template.pdf output_temp
 
-      - name: Compare images
-        run: |
-          for i in $(seq 1 5); do
-            magick compare output-${i}.jpg output_temp-${i}.jpg diff_${i}.jpg
-          done
+      # - name: Compare images
+      #   run: |
+      #     for i in $(seq 1 5); do
+      #       magick compare output-${i}.jpg output_temp-${i}.jpg diff_${i}.jpg
+      #     done
 
 
