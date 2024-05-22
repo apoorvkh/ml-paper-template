@@ -24,6 +24,7 @@ jobs:
       - name: download the ACL template zip and upload it 
         uses: wow-actions/download-upload@v1
         with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           url: https://github.com/acl-org/acl-style-files/archive/refs/heads/master.zip
           dir: ml-paper-automated
           filename: acl-template
