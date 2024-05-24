@@ -1,47 +1,50 @@
 \pdfoutput=1
 
-\input{confs/compile_vars}
+% compile vars
+\newif\ifpaper \newcommand{\paper}{\papertrue}
+\newif\ifsupplementary \newcommand{\supplementary}{\supplementarytrue}
+\newif\ifrebuttal \newcommand{\rebuttal}{\rebuttaltrue}
+
+\newif\ifreview \newcommand{\review}{\reviewtrue}
+\newif\ifarxiv \newcommand{\arxiv}{\arxivtrue}
+\newif\iffinal \newcommand{\final}{\finaltrue}
+
+\newif\ifappendixafterpaper \newcommand{\appendixafterpaper}{\appendixafterpapertrue}
+
+%
 \input{_constants}
 
-\input{confs/use_conf_style}
+% use conf style
+\makeatletter
+\def\input@path{{./conf}}
+\makeatother
+
 \input{_class_options}
 \documentclass{\dclass}
 
+% shell script?
+
 \input{_preamble}
 \input{_packages}
-\input{_macros}
-
-% \makeatletter
-% \newcommand*{\addFileDependency}[1]{
-%   \typeout{(#1)}
-%   \@addtofilelist{#1}
-%   \IfFileExists{#1}{}{\typeout{No file #1.}}
-% }
-% \makeatother
-
-% \ifsupplementary
-% \externaldocument{main}
-% \addFileDependency{main.tex}
-% \addFileDependency{main.aux}
-% \fi
+\input{_custom}
 
 \begin{document}
 \input{_title}
 \maketitle
-\ifcvpr \ifrebuttal \thispagestyle{empty} \appendix \fi \fi
 
 %% CONTENT
 \ifpaper \input{0a_contents} \fi
-\ifsupplementary \input{12_appendix} \fi
-\ifrebuttal \input{13_rebuttal} \fi
+\ifsupplementary \input{98_appendix} \fi
+\ifrebuttal \input{99_rebuttal} \fi
 
 %% BIBLIOGRAPHY
 {
 \input{_bibstyle}
-\bibliography{anthology, 11_references}
+\bibliography{anthology, 97_references}
 }
 
 %% APPENDIX
-\ifpaper \ifarxiv \clearpage \input{12_appendix} \fi \fi
+% TODO
+\ifappendixafterpaper \clearpage \input{98_appendix} \fi
 
 \end{document}

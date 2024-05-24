@@ -1,16 +1,12 @@
 \paper % paper, supplementary, rebuttal
 \review % review, arxiv, final
-\cvpr % cvpr, iccv, eccv, neurips, icml, iclr, emnlp, acl, naacl
-\twentyfour % twentytwo, twentythree, twentyfour
 
 \def\conference{cvpr}
-\def\paperID{0000}
 \def\conferenceYear{2024}
-\def\paperStyle{rebuttal}
-\def\paperMode{review}
 
+\def\paperID{0000}
 \def\paperTitle{Paper Title}
-\def\runningTitle{Rolling title}
+\def\runningTitle{Rolling title}  % Not for all conferences
 
 \def\authorBlock{
     Author 1\thanks{Equal contribution} \qquad
@@ -18,11 +14,9 @@
     Author 3 \\
     % Institute \\
     % {\tt\small \{email, addresses\}@inst.edu}
-}
+}  % Make sure this works for all conferences
+
+% Not for all conferences
 \def\runningAuthor{F. Author et al.}
 \def\instituteBlock{}
 \def\keywords{}
-
-\makeatletter
-\def\input@path{{./confs/\conference/\conferenceYear}}
-\makeatother

@@ -1,3 +1,33 @@
+%% Import Packages HERE
+
+% TODO: default packages that we always want
+\usepackage{graphicx}
+
+\usepackage{latexsym}
+\usepackage[T1]{fontenc} % Change for other char sets
+\usepackage[utf8]{inputenc}
+\usepackage{microtype}
+\usepackage{inconsolata}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{color}
+\usepackage{xstring}
+
+% Unfortunately, this package interferes with arxiv's stamp
+\iffinal \usepackage[accsupp]{axessibility} \fi
+
+% \usepackage[pagebackref,breaklinks,colorlinks]{hyperref}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage[capitalize]{cleveref}
+\crefname{section}{Sec.}{Secs.}
+\crefname{table}{Table}{Tables}
+\crefname{figure}{Fig.}{Figs.}
+
+\frenchspacing
+
 % \newcommand{\authorname}[1]{{\textcolor{blue}{[Author: #1]}}}
 % ...
 
@@ -24,19 +54,3 @@
         }}}}%
     }%
 }}
-
-\newenvironment{packed_enum}{
-\begin{enumerate}
-  \setlength{\itemsep}{1pt}
-  \setlength{\parskip}{2pt}
-  \setlength{\parsep}{0pt}
-}{\end{enumerate}}
-
-\newenvironment{packed_item}{
-\begin{itemize}
-  \setlength{\itemsep}{1pt}
-  \setlength{\parskip}{2pt}
-  \setlength{\parsep}{0pt}
-}{\end{itemize}}
-
-\frenchspacing
