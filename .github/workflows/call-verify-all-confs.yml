@@ -5,7 +5,7 @@ on:
 # TODO: just run this on push to main
 
 jobs:
-  call-verify-all-branches:
+  call-verify-all-confs:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
@@ -16,18 +16,17 @@ jobs:
       - name: Fetch all branches
         run: git fetch --all
 
-      - name: List all branches
-        id: list-branches
+      - name: Set matrix from branches
+        id: set-matrix
         run: |
           BRANCHES=$(git branch -a --format='%(refname:lstrip=3)' | grep 'conf/' | jq -R . | jq -s .)
-          echo "::set-output name=matrix::$BRANCHES"
+          echo "matrix=$BRANCHES" >> $GITHUB_OUTPUT
 
   use-branches-matrix:
-    needs: call-verify-all-branches
+    needs: call-verify-all-confs
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        branches: ${{fromJson(needs.call-verify-all-branches.outputs.matrix)}}
+        branches: ${{fromJson(needs.call-verify-all-confs.outputs.matrix)}}
     steps:
-      - name: Echo branch name
-        run: echo ${{ matrix.branches }}
+      - run: echo ${{ matrix.branches }}
