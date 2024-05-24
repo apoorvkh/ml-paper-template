@@ -19,8 +19,8 @@ jobs:
       - name: Set matrix from branches
         id: set-matrix
         run: |
-          BRANCHES=$(git branch -a --format='%(refname:lstrip=3)' | grep 'conf/' | jq -R . | jq -s .)
-          echo "matrix=${{ toJSON($BRANCHES) }}" >> $GITHUB_OUTPUT
+          BRANCHES=$(git branch -a --format='%(refname:lstrip=3)' | grep 'conf/' | jq -R . | jq -sc .)
+          echo "matrix=$BRANCHES" >> $GITHUB_OUTPUT
 
   use-branches-matrix:
     needs: call-verify-all-confs
