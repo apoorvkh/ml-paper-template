@@ -18,13 +18,13 @@ jobs:
       - name: List all branches
         id: list-branches
         run: |
-          BRANCHES=$(git branch -r | grep -v '\->' | grep -v 'origin/HEAD' | sed 's|origin/||')
+          BRANCHES=$(git branch -a --format='%(refname:lstrip=3)' | grep 'conf/' | tr '\n' ' ' | sed 's/ *$//')
           echo "::set-output name=branches::${BRANCHES}"
 
-      - name: Set matrix
-        id: set-matrix
-        run: |
-          BRANCHES=${{ steps.list-branches.outputs.branches }}
-          BRANCH_ARRAY=($(echo $BRANCHES | tr " " "\n"))
-          MATRIX=$(printf "%s\n" "${BRANCH_ARRAY[@]}" | jq -R . | jq -s .)
-          echo "::set-output name=matrix::${MATRIX}"
+      # - name: Set matrix
+      #   id: set-matrix
+      #   run: |
+      #     BRANCHES=${{ steps.list-branches.outputs.branches }}
+      #     BRANCH_ARRAY=($(echo $BRANCHES | tr " " "\n"))
+      #     MATRIX=$(printf "%s\n" "${BRANCH_ARRAY[@]}" | jq -R . | jq -s .)
+      #     echo "::set-output name=matrix::${MATRIX}"
