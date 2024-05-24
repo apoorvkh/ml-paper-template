@@ -19,7 +19,7 @@ jobs:
         id: list-branches
         run: |
           BRANCHES=$(git branch -a --format='%(refname:lstrip=3)' | grep 'conf/' | tr '\n' ' ' | sed 's/ *$//')
-          echo "::set-output name=branches::${BRANCHES}"
+          echo "${BRANCHES}" >> $GITHUB_OUTPUT
 
       # - name: Set matrix
       #   id: set-matrix
