@@ -1,0 +1,29 @@
+on:
+  push:
+# TODO: once this works, only run this on push to main
+
+jobs:
+  get-branches:
+    runs-on: ubuntu-latest
+    outputs:
+      branches: ${{ steps.get-branches.outputs.branches }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Get branches
+        id: get-branches
+        run: |
+          git fetch --all
+          BRANCHES=$(git branch -a --format='%(refname:lstrip=3)' | grep 'conf/' | jq -R . | jq -sc .)
+          echo "branches=$BRANCHES" >> $GITHUB_OUTPUT
+
+  verify-all-confs:
+    needs: get-branches
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        branches: ${{fromJson(needs.get-branches.outputs.branches)}}
+    steps:
+      # TODO: invoke the verify workflow and pass the name of this single branch (i.e. ${{ matrix.branches }})
+      - run: echo ${{ matrix.branches }}
