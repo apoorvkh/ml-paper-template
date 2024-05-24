@@ -1,10 +1,10 @@
-name: List conference branches
+name: Verify all confs/ on push to main
 
 on:
   push:
 
 jobs:
-  fetch-branches:
+  call-verify-all-branches:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
@@ -19,7 +19,7 @@ jobs:
         id: list-branches
         run: |
           BRANCHES=$(git branch -a --format='%(refname:lstrip=3)' | grep 'conf/' | tr '\n' ' ' | sed 's/ *$//')
-          echo "${BRANCHES}" >> $GITHUB_OUTPUT
+          echo "${BRANCHES}"
 
       # - name: Set matrix
       #   id: set-matrix
