@@ -2,6 +2,7 @@ name: Verify all confs/ on push to main
 
 on:
   push:
+# TODO: just run this on push to main
 
 jobs:
   call-verify-all-branches:
@@ -18,13 +19,15 @@ jobs:
       - name: List all branches
         id: list-branches
         run: |
-          BRANCHES=$(git branch -a --format='%(refname:lstrip=3)' | grep 'conf/' | tr '\n' ' ' | sed 's/ *$//')
-          echo "${BRANCHES}"
+          BRANCHES=$(git branch -a --format='%(refname:lstrip=3)' | grep 'conf/' | jq -R . | jq -s .)
+          echo "::set-output name=matrix::$BRANCHES"
 
-      # - name: Set matrix
-      #   id: set-matrix
-      #   run: |
-      #     BRANCHES=${{ steps.list-branches.outputs.branches }}
-      #     BRANCH_ARRAY=($(echo $BRANCHES | tr " " "\n"))
-      #     MATRIX=$(printf "%s\n" "${BRANCH_ARRAY[@]}" | jq -R . | jq -s .)
-      #     echo "::set-output name=matrix::${MATRIX}"
+  use-branches-matrix:
+    needs: call-verify-all-branches
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        branches: ${{fromJson(needs.call-verify-all-branches.outputs.matrix)}}
+    steps:
+      - name: Echo branch name
+        run: echo ${{ matrix.branches }}
