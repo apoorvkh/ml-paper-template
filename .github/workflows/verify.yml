@@ -1,6 +1,14 @@
 name: Copy and Replace
 
 on:
+  workflow_call:
+    inputs:
+      config-path:
+        required: true
+        type: string
+    secrets:
+      envPAT:
+        required: true
   push:
     branches:
       - cvpr2024
@@ -14,38 +22,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Download and extract CVPR-2024-main
+      - name: Download and extract directory
         run: |
-          curl -L https://github.com/cvpr-org/author-kit/archive/refs/tags/CVPR2024-v2.tar.gz -o CVPR2024-v2.tar.gz
-          tar -xf CVPR2024-v2.tar.gz
-          rm CVPR2024-v2.tar.gz
+          curl -L ${{ inputs.config-path }} -o initial.tar.gz
+          tar -xf initial.tar.gz
+          rm initial.tar.gz
           mv author-kit-CVPR2024-v2/ CVPR-2024-main
-
-      # - name: download the ACL template zip and upload it 
-      #   uses: wow-actions/download-upload@v1
-      #   with:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #     url: https://github.com/acl-org/acl-style-files/archive/refs/heads/master.zip
-      #     dir: ml-paper-automated
-      #     filename: acl-template
-      - name: Download and extract ACL template zip
-        run: |
-          curl -L https://github.com/acl-org/acl-style-files/archive/refs/heads/master.zip -o acl-template.zip
-          unzip acl-template.zip
-          rm acl-template.zip
-          mv acl-style-files-master/latex acl-template
-          rm -r acl-style-files-master
-
-      # - name: download the ICLR template zip and upload it 
-      #   uses: wow-actions/download-upload@v1
-      #   with:
-      #     url: https://github.com/ICLR/Master-Template/raw/master/iclr2024.zip
-      #     filename: iclr-template
-
-      # - name: Download and extract ICLR-2024-main
-      #   uses: TonyBogdanov/zip@1.0
-      #   with:
-      #     args: unzip -qq ./iclr-template.zip -d ./iclr-template
+      # How do we know the folder name here?
 
       # - name: Clone ml-paper-template-testing
       #   run: |
@@ -80,22 +63,10 @@ jobs:
       #     format: pdf
       #     filename: -cd ./ml-paper-template/main.tex  
 
-      - name: Render PDF acl2024
-        uses: hspaans/latexmk-action@v1
-        with:
-          format: pdf
-          filename: -cd ./acl-template/acl_latex.tex
-
-      # - name: Render PDF iclr2024
-      #   uses: hspaans/latexmk-action@v1
-      #   with:
-      #     format: pdf
-      #     filename: iclr-template/iclr2024_conference.tex
-
       - name: Convert PDF to PPM
         run: |
           pdftoppm -jpeg -r 300 CVPR-2024-main/cvpr_template.pdf output
-        # pdftoppm -jpeg -r 300 ml-paper-template/cvpr_template.pdf output_temp
+          pdftoppm -jpeg -r 300 ml-paper-template/cvpr_template.pdf output_temp
 
       # - name: Compare images
       #   run: |
