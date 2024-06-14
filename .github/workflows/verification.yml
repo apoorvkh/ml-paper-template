@@ -1,0 +1,8 @@
+name: Render CVPR2024
+
+jobs:
+  call-workflow-passing-data:
+    uses: apoorvkh/ml-paper-template/.github/workflows/verify.yml@main
+    with:
+      config-path: https://github.com/cvpr-org/author-kit/archive/refs/tags/CVPR2024-v2.tar.gz
+    secrets: inherit
