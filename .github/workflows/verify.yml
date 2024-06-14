@@ -11,7 +11,7 @@ on:
         required: true
   push:
     branches:
-      - cvpr2024
+      - verify
 
 jobs:
   build:
