@@ -1,6 +1,6 @@
 name: Copy and Replace
 
-on: push
+on: 
   workflow_call:
     inputs:
       config-path:
@@ -9,6 +9,9 @@ on: push
       folder-path:
         required: true
         type: string
+  push:
+    branches:
+      - 'conf/**'
 
 jobs:
   build:
