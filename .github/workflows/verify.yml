@@ -71,7 +71,7 @@ jobs:
       - name: Compare images
         run: |
           for i in $(seq 1 5); do
-            magick compare output-${i}.jpg output_temp-${i}.jpg diff_${i}.jpg
+            ./magick compare output-${i}.jpg output_temp-${i}.jpg diff_${i}.jpg
           done
 
 
