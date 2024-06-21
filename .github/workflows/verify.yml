@@ -64,6 +64,7 @@ jobs:
 
       - name: Convert PDF to PPM
         run: |
+          brew install poppler
           pdftoppm -jpeg -r 300 CVPR-2024-main/cvpr_template.pdf output
           pdftoppm -jpeg -r 300 CVPR-2024-main/cvpr_template.pdf output_temp
 
