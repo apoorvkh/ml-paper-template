@@ -65,7 +65,7 @@ jobs:
       - name: Convert PDF to PPM
         run: |
           sudo apt-get install poppler-utils
-          pdftoppm -jpeg -r 300 main.pdf output
+          pdftoppm -jpeg -r 300 CVPR-2024-main/main.pdf output
           pdftoppm -jpeg -r 300 CVPR-2024-main/main.pdf output_temp
 
       - name: Compare images
