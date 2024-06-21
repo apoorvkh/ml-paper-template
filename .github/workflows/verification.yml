@@ -9,4 +9,5 @@ jobs:
     uses: apoorvkh/ml-paper-template/.github/workflows/verify.yml@verify
     with:
       config-path: https://github.com/cvpr-org/author-kit/archive/refs/tags/CVPR2024-v2.tar.gz
-      folder-path: author-kit-CVPR2024-v2/ # Activate
+      folder-path: author-kit-CVPR2024-v2/ # Activate 2
+
