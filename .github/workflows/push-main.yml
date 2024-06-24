@@ -2,9 +2,7 @@
 
 on:
   push:
-    branches:
-      - main
-      - verify
+    main:
 
 jobs:
   get-branches:
@@ -22,13 +20,16 @@ jobs:
           BRANCHES=$(git branch -a --format='%(refname:lstrip=3)' | grep 'conf/' | jq -R . | jq -sc .)
           echo "branches=$BRANCHES" >> $GITHUB_OUTPUT
 
-  run-all-confs:
+  verify-all-confs:
     needs: get-branches
     runs-on: ubuntu-latest
     strategy:
       matrix:
         branches: ${{fromJson(needs.get-branches.outputs.branches)}}
-    # TODO: invoke the verify workflow and pass the name of this single branch (i.e. ${{ matrix.branches }})
-    uses: apoorvkh/ml-paper-template/.github/workflows/verify.yml@verify
-    with:
-      branch-name: ${{ matrix.branches }}
+    steps:
+      # TODO: invoke the verify workflow and pass the name of this single branch (i.e. ${{ matrix.branches }})
+      - run: echo ${{ matrix.branches }}
+
+      - uses: workflows/verify.yml@verify
+        with:
+          branch-name: ${{ matrix.branches }}
