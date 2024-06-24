@@ -33,7 +33,6 @@ jobs:
       - name: Clone ml-paper-template
         run: |
           git clone https://github.com/apoorvkh/ml-paper-template.git
-          git clone https://github.com/apoorvkh/ml-paper-template.git
           
       # - name: Copy contents from CVPR 2024
       #   run: |
@@ -62,8 +61,7 @@ jobs:
         uses: hspaans/latexmk-action@v1
         with:
           format: pdf
-          filename: -cd ./CVPR-2024-main/main.tex  
-          filename: -cd ./CVPR-2024-main/main.tex  
+          filename: -cd ./CVPR-2024-main/main.tex
 
       # TODO : Change the name of the file later here
       - name: Convert PDF to PPM
@@ -76,7 +74,6 @@ jobs:
       - name: Compare images
         run: |
           for i in $(seq 1 5); do
-            ./magick compare output-${i}.jpg output_temp-${i}.jpg diff_${i}.jpg
             ./magick compare output-${i}.jpg output_temp-${i}.jpg diff_${i}.jpg
           done
 
