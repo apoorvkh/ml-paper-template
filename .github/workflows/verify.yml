@@ -1,17 +1,11 @@
-name: Copy and Replace
+# verify.yml
 
 on: 
   workflow_call:
     inputs:
-      config-path:
+      branch-name:
         required: true
         type: string
-      folder-path:
-        required: true
-        type: string
-  push:
-    branches:
-      - 'conf/**'
 
 jobs:
   build:
@@ -22,16 +16,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Read the YML 
+        uses: pietrobolcato/action-read-yaml@1.0.0
+        id: read_action_js
+        with:
+          config: apoorvkh/ml-paper-template/.github/workflows/verify.yml@${{ inputs.branch-name }}
+
+
       - name: Download and extract directory
         run: |
-          curl -L ${{ inputs.config-path }} -o initial.tar.gz
+          curl -L ${{ steps.config-path }} -o initial.tar.gz
           tar -xf initial.tar.gz
           rm -f initial.tar.gz
-          mv ${{ inputs.folder-path }} CVPR-2024-main
+          mv ${{ steps.folder-path }} CVPR-2024-main
 
       - name: Clone ml-paper-template
         run: |
-          git clone git@github.com:apoorvkh/ml-paper-template.git
+          git clone https://github.com/apoorvkh/ml-paper-template.git
           
       # - name: Copy contents from CVPR 2024
       #   run: |
@@ -60,17 +61,20 @@ jobs:
         uses: hspaans/latexmk-action@v1
         with:
           format: pdf
-          filename: -cd ./ml-paper-template/main.tex  
+          filename: -cd ./CVPR-2024-main/main.tex  
 
+      # TODO : Change the name of the file later here
       - name: Convert PDF to PPM
         run: |
-          pdftoppm -jpeg -r 300 CVPR-2024-main/cvpr_template.pdf output
-          pdftoppm -jpeg -r 300 ml-paper-template/cvpr_template.pdf output_temp
-
+          sudo apt-get install poppler-utils
+          pdftoppm -jpeg -r 300 CVPR-2024-main/main.pdf output
+          pdftoppm -jpeg -r 300 CVPR-2024-main/main.pdf output_temp 
+          
+      # TODO : Include the magick
       - name: Compare images
         run: |
           for i in $(seq 1 5); do
-            magick compare output-${i}.jpg output_temp-${i}.jpg diff_${i}.jpg
+            ./magick compare output-${i}.jpg output_temp-${i}.jpg diff_${i}.jpg
           done
 
 

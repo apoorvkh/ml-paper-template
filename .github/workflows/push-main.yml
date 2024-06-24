@@ -1,6 +1,8 @@
+# updating main branch
+
 on:
   push:
-# TODO: once this works, only run this on push to main
+    main:
 
 jobs:
   get-branches:
@@ -27,3 +29,7 @@ jobs:
     steps:
       # TODO: invoke the verify workflow and pass the name of this single branch (i.e. ${{ matrix.branches }})
       - run: echo ${{ matrix.branches }}
+
+      - uses: apoorvkh/ml-paper-template/.github/workflows/verify.yml@verify
+        with:
+          branch-name: ${{ matrix.branches }}
