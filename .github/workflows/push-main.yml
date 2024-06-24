@@ -23,7 +23,6 @@ jobs:
   # # TODO: invoke the verify workflow and pass the name of this single branch (i.e. ${{ matrix.branches }})
   verify-all-confs:
     needs: get-branches
-    runs-on: ubuntu-latest
     strategy:
       matrix:
         branches: ${{fromJson(needs.get-branches.outputs.branches)}}
