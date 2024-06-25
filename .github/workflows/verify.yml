@@ -14,21 +14,26 @@ jobs:
     steps:
 
       - name: Checkout repository
-        uses: actions/${{ inputs.branch-name }}@v4
+        uses: actions/checkout@v4
 
-      - name: Read the YML 
-        uses: pietrobolcato/action-read-yaml@1.0.0
-        id: read_action_js
-        with:
-          config: apoorvkh/ml-paper-template/.github/workflows/verification.yml
+      # TODO : Get a better approach?
+      - name: Read the JSON 
+        run: |
+          git checkout ${{ inputs.branch-name }}
+          cat ./.github/workflows/info.json >> $GITHUB_OUTPUT
 
 
+  compare:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Download and extract directory
         run: |
-          curl -L ${{ steps.config-path }} -o initial.tar.gz
+          curl -L ${{fromJson(needs.build.outputs.config-path)}} -o initial.tar.gz
           tar -xf initial.tar.gz
           rm -f initial.tar.gz
-          mv ${{ steps.folder-path }} CVPR-2024-main
+          mv ${{fromJson(needs.build.outputs.folder-path)}} CVPR-2024-main
 
       - name: Clone ml-paper-template
         run: |
