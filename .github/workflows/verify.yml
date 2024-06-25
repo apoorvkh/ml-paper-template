@@ -16,7 +16,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          repository: ${{ inputs.branch-name }}
+          ref: ${{ inputs.branch-name }}
 
       # TODO : Get a better approach?
       - name: Read the JSON 
