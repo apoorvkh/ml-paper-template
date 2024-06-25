@@ -20,7 +20,7 @@ jobs:
         uses: pietrobolcato/action-read-yaml@1.0.0
         id: read_action_js
         with:
-          config: apoorvkh/ml-paper-template@${{ inputs.branch-name }}/.github/workflows/verification.yml
+          config: apoorvkh/ml-paper-template/.github/workflows/verification.yml
 
 
       - name: Download and extract directory
