@@ -15,11 +15,12 @@ jobs:
 
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          repository: ${{ inputs.branch-name }}
 
       # TODO : Get a better approach?
       - name: Read the JSON 
-        run: |
-          git checkout ${{ inputs.branch-name }}
+        run: 
           cat ./.github/workflows/info.json >> $GITHUB_OUTPUT
 
 
