@@ -24,7 +24,7 @@ jobs:
         run: |
           {
             echo 'JSON_RESPONSE<<EOF'
-            sed -e '$a\' ./info.json
+            sed -e '$a\' info.json
             echo 'EOF'
           } >> "$GITHUB_ENV"
 
