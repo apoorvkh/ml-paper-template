@@ -23,7 +23,7 @@ jobs:
         id: json_properties
         uses: ActionsTools/read-json-action@main
         with:
-          file_path: ".github/workflows/info.json"
+          file_path: "info.json"
 
       - name: Download and extract directory
         run: |
