@@ -30,6 +30,8 @@ jobs:
 
       - name: Download and extract directory
         run: |
+          echo '${{ fromJson(env.JSON_RESPONSE).config-path }}'
+          echo '${{ fromJson(env.JSON_RESPONSE).folder-path }}'
           curl -L ${{steps.json_read.env.config-path}} -o initial.tar.gz
           tar -xf initial.tar.gz
           rm -f initial.tar.gz
