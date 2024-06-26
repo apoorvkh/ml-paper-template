@@ -28,14 +28,12 @@ jobs:
             echo 'EOF'
           } >> "$GITHUB_ENV"
 
-          echo '${{ fromJson(env.JSON_RESPONSE) }}'
-
       - name: Download and extract directory
         run: |
-          curl -L ${{steps.json_properties.outputs.config-path}} -o initial.tar.gz
+          curl -L ${{steps.json_read.env.config-path}} -o initial.tar.gz
           tar -xf initial.tar.gz
           rm -f initial.tar.gz
-          mv ${{steps.json_properties.outputs.folder-path}} CVPR-2024-main
+          mv ${{steps.json_read.env.folder-path}} CVPR-2024-main
 
       - name: Clone ml-paper-template
         run: |
