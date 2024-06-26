@@ -21,9 +21,9 @@ jobs:
       # TODO : Get a better approach?
       - name: Read the JSON 
         run: 
-          echo 'PACKAGE_JSON<<EOF' >> $GITHUB_ENV
-          cat ./.github/workflows/info.json >> $GITHUB_ENV
-          echo 'EOF' >> $GITHUB_ENV
+          echo 'PACKAGE_JSON<<EOF' >> $GITHUB_OUTPUT
+          cat ./.github/workflows/info.json >> $GITHUB_OUTPUT
+          echo 'EOF' >> $GITHUB_OUTPUT
 
   compare:
     needs: build
@@ -32,10 +32,10 @@ jobs:
     steps:
       - name: Download and extract directory
         run: |
-          curl -L ${{fromJson(needs.build.env).config-path}} -o initial.tar.gz
+          curl -L ${{fromJson(needs.build.outputs).config-path}} -o initial.tar.gz
           tar -xf initial.tar.gz
           rm -f initial.tar.gz
-          mv ${{fromJson(needs.build.env).folder-path}} CVPR-2024-main
+          mv ${{fromJson(needs.build.outputs).folder-path}} CVPR-2024-main
 
       - name: Clone ml-paper-template
         run: |
