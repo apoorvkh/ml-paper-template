@@ -20,22 +20,17 @@ jobs:
 
       # TODO : Get a better approach?
       - name: Read the JSON 
-        run: 
-          echo 'PACKAGE_JSON<<EOF' >> $GITHUB_ENV
-          cat ./.github/workflows/info.json >> $GITHUB_ENV
-          echo 'EOF' >> $GITHUB_ENV
+        id: json_properties
+        uses: ActionsTools/read-json-action@main
+        with:
+          file_path: ".github/workflows/info.json"
 
-  compare:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
       - name: Download and extract directory
         run: |
-          curl -L ${{fromJson(needs.build.env.PACKAGE_JSON).config-path}} -o initial.tar.gz
+          curl -L ${{steps.json_properties.outputs.config-path}} -o initial.tar.gz
           tar -xf initial.tar.gz
           rm -f initial.tar.gz
-          mv ${{fromJson(needs.build.env.PACKAGE_JSON).folder-path}} CVPR-2024-main
+          mv ${{steps.json_properties.outputs.folder-path}} CVPR-2024-main
 
       - name: Clone ml-paper-template
         run: |
