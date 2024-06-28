@@ -22,11 +22,7 @@ jobs:
       - name: Read the JSON values
         id: json_read
         run: |
-          {
-            echo 'JSON_RESPONSE<<EOF'
-            sed -e '$a\' info.json
-            echo 'EOF'
-          } >> "$GITHUB_ENV"
+          echo info.json >> "$GITHUB_ENV"
         shell: bash
 
       - name: Download and extract directory
