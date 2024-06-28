@@ -20,12 +20,12 @@ jobs:
 
       # TODO : Has an error on the reading JSON
       - name: Read JSON file
-        id: read-json
+        id: json_read
         uses: actions/github-script@v6
         with:
           script: |
             const fs = require('fs');
-            const path = 'ml-paper-template/info.json';
+            const path = 'info.json';
             const info = JSON.parse(fs.readFileSync(path, 'utf8'));
             return {
               configPath: info.config_path,
@@ -35,8 +35,8 @@ jobs:
       - name: Set output values
         id: set-outputs
         run: |
-          echo "config_path=${{ steps.read-json.outputs.configPath }}" >> $GITHUB_OUTPUT
-          echo "folder_path=${{ steps.read-json.outputs.folderPath }}" >> $GITHUB_OUTPUT
+          echo "config_path=${{ steps.json_read.outputs.configPath }}" >> $GITHUB_OUTPUT
+          echo "folder_path=${{ steps.json_read.outputs.folderPath }}" >> $GITHUB_OUTPUT
       
       - name: Use values from JSON
         run: |
@@ -46,10 +46,10 @@ jobs:
       - name: Download and extract directory
         run: |
           echo ${{steps.json_read.outputs.branch}}
-          curl -L ${{steps.json_read.outputs.config-path}} -o initial.tar.gz
+          curl -L ${{steps.json_read.outputs.configPath}} -o initial.tar.gz
           tar -xf initial.tar.gz
           rm -f initial.tar.gz
-          mv ${{steps.json_read.outputs.folder-path}} CVPR-2024-main
+          mv ${{steps.json_read.outputs.folderPath}} CVPR-2024-main
 
       - name: Clone ml-paper-template
         run: |
