@@ -1,4 +1,29 @@
 {
-    "config_path" : "https://github.com/cvpr-org/author-kit/archive/refs/tags/CVPR2024-v2.tar.gz",
-    "folder_path" : "author-kit-CVPR2024-v2/"
-}
+    "name": "github-action-json-file-properties",
+    "version": "1.0.5",
+    "author": "zoexx",
+    "description": "GitHub Action to load properties from a JSON file.",
+    "main": "dist/index.js",
+    "scripts": {
+      "build": "esbuild src/index.ts --bundle --platform=node --target=node20 --outfile=dist/index.js",
+      "test": "act"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/zoexx/github-action-json-file-properties"
+    },
+    "keywords": [
+      "actions",
+      "typescript",
+      "GitHub"
+    ],
+    "license": "MIT",
+    "dependencies": {
+      "@actions/core": "^1.10.1"
+    },
+    "devDependencies": {
+      "@types/node": "^20.11.17",
+      "esbuild": "^0.20.0",
+      "typescript": "^5.3.3"
+    }
+  }
