@@ -22,7 +22,7 @@ jobs:
       - name: Read the JSON values
         id: json_read
         run: |
-          echo info.json >> "$GITHUB_ENV"
+          cat info.json >> "$GITHUB_ENV"
         shell: bash
 
       - name: Download and extract directory
