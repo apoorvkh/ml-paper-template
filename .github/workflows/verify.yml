@@ -19,11 +19,29 @@ jobs:
           ref: ${{ inputs.branch-name }}
 
       # TODO : Has an error on the reading JSON
-      - name: Read JSON
-        id: json_read
-        uses: ActionsTools/read-json-action@main
+      - name: Read JSON file
+        id: read-json
+        uses: actions/github-script@v6
         with:
-          file_path: "info.json"
+          script: |
+            const fs = require('fs');
+            const path = 'info.json';
+            const info = JSON.parse(fs.readFileSync(path, 'utf8'));
+            return {
+              configPath: info.config_path,
+              folderPath: info.folder_path
+            };
+          
+      - name: Set output values
+        id: set-outputs
+        run: |
+          echo "::set-output name=config_path::${{ steps.read-json.outputs.configPath }}"
+          echo "::set-output name=folder_path::${{ steps.read-json.outputs.folderPath }}"
+      
+      - name: Use values from JSON
+        run: |
+          echo "Config Path: ${{ steps.set-outputs.outputs.config_path }}"
+          echo "Folder Path: ${{ steps.set-outputs.outputs.folder_path }}"
 
       - name: Download and extract directory
         run: |
