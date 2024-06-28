@@ -1,4 +1,4 @@
-# CVPR specific vars 2
+# CVPR specific vars
 on:
   push:
     branches:
