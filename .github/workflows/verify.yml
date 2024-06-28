@@ -27,7 +27,7 @@ jobs:
 
       - name: Download and extract directory
         run: |
-          echo ${{steps.json_read.outputs}}
+          echo ${{steps.json_read.outputs.branch}}
           curl -L ${{steps.json_read.outputs.config-path}} -o initial.tar.gz
           tar -xf initial.tar.gz
           rm -f initial.tar.gz
