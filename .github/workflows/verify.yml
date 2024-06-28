@@ -18,20 +18,20 @@ jobs:
         with:
           ref: ${{ inputs.branch-name }}
 
-      # TODO : Get a better approach?
-      - name: Read the JSON values
+      # TODO : Has an error on the reading JSON
+      - name: Read JSON
         id: json_read
-        run: |
-          cat info.json >> "$GITHUB_ENV"
-        shell: bash
+        uses: ActionsTools/read-json-action@main
+        with:
+          file_path: "info.json"
 
       - name: Download and extract directory
         run: |
-          echo ${{steps.json_read.env}}
-          curl -L ${{steps.json_read.env.config-path}} -o initial.tar.gz
+          echo ${{steps.json_read.outputs}}
+          curl -L ${{steps.json_read.outputs.config-path}} -o initial.tar.gz
           tar -xf initial.tar.gz
           rm -f initial.tar.gz
-          mv ${{steps.json_read.env.folder-path}} CVPR-2024-main
+          mv ${{steps.json_read.outputs.folder-path}} CVPR-2024-main
 
       - name: Clone ml-paper-template
         run: |
