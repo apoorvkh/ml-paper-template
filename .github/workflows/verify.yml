@@ -35,8 +35,8 @@ jobs:
       - name: Set output values
         id: set-outputs
         run: |
-          echo "::set-output name=config_path::${{ steps.read-json.outputs.configPath }}"
-          echo "::set-output name=folder_path::${{ steps.read-json.outputs.folderPath }}"
+          echo "config_path=${{ steps.read-json.outputs.configPath }}" >> $GITHUB_OUTPUT
+          echo "folder_path=${{ steps.read-json.outputs.folderPath }}" >> $GITHUB_OUTPUT
       
       - name: Use values from JSON
         run: |
