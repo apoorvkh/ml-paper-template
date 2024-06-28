@@ -3,11 +3,11 @@
 on:
   push:
     branches:
-      - conf/CVPR2024
+      - conf/cvpr2024
 
 jobs:
   call-workflow-passing-data:
     uses: apoorvkh/ml-paper-template/.github/workflows/verify.yml@verify
     with:
-      branch-name: conf/CVPR2024
+      branch-name: conf/cvpr2024
 
