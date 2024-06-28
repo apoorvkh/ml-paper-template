@@ -19,9 +19,9 @@ jobs:
           ref: ${{ inputs.branch-name }}
 
       # TODO : Has an error on the reading JSON
-      - name: Read JSON
+      - name: Get Properties From JSON File
         id: json_read
-        uses: ActionsTools/read-json-action@main
+        uses: zoexx/github-action-json-file-properties@1.0.6    
         with:
           file_path: "info.json"
 
