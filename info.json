@@ -1,7 +1,7 @@
 {
     "name": "github-action-json-file-properties",
     "version": "1.0.5",
-    "author": "zoexx",
+    "author": "zoe",
     "description": "GitHub Action to load properties from a JSON file.",
     "main": "dist/index.js",
     "scripts": {
