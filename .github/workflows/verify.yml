@@ -29,12 +29,14 @@ jobs:
             const info = JSON.parse(fs.readFileSync(path, 'utf8'));
             return {
               configPath: info.config_path,
-              folderPath: info.folder_path
+              folderPath: info.folder_path,
+              name: info.name
             };
           
       - name: Set output values
         id: set-outputs
         run: |
+          echo ${{ steps.json_read.outputs.name }}
           echo "config_path=${{ steps.json_read.outputs.configPath }}" >> $GITHUB_OUTPUT
           echo "folder_path=${{ steps.json_read.outputs.folderPath }}" >> $GITHUB_OUTPUT
       
