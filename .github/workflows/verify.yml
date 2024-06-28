@@ -25,7 +25,7 @@ jobs:
         with:
           script: |
             const fs = require('fs');
-            const path = 'info.json';
+            const path = 'ml-paper-template/info.json';
             const info = JSON.parse(fs.readFileSync(path, 'utf8'));
             return {
               configPath: info.config_path,
