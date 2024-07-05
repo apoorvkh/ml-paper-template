@@ -20,7 +20,9 @@ jobs:
       # TODO : Has an error on the reading JSON
       - name: Read JSON file
         id: json_read
+        shell: bash
         run: |
+          echo ${{ inputs.branch-name }}
           content=`cat ./info.json`
           content="${content//'%'/'%25'}"
           content="${content//$'\n'/'%0A'}"
