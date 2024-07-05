@@ -75,20 +75,18 @@ jobs:
           format: pdf
           filename: -cd ./CVPR-2024-main/${{ steps.read_action_js.outputs['main_file'] }}
 
-      # TODO : Change the name of the file later here
-      - name: Convert PDF to PPM
-        run: |
-          sudo apt-get install poppler-utils
-          pdftoppm -jpeg -r 300 CVPR-2024-main/main.pdf output
-          pdftoppm -jpeg -r 300 CVPR-2024-main/main.pdf output_temp 
-          
-      # TODO : Include the magick
-      - uses: mfinelli/setup-imagemagick@v5
-
-      - name: Compare images
-        run: |
-          for i in $(seq 1 5); do
-            magick compare output-${i}.jpg output_temp-${i}.jpg diff_${i}.jpg
-          done
+      # Use the diff-pdf instead
+      - uses: nowsprinting/diff-pdf-action@v1
+        with:
+          file1: CVPR-2024-main/main.pdf
+          file2: CVPR-2024-main/main.pdf
+          options: --skip-identical --output-diff=diff.pdf --dpi=100
+          suppress-diff-error: true
+      
+      - name: Upload math result for job 1
+        uses: actions/upload-artifact@v4
+        with:
+          name: difference pdf
+          path: diff.pdf
 
 
