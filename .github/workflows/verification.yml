@@ -1,4 +1,4 @@
-# ACL specific vars
+# ACL specific variables
 
 on:
   push:
