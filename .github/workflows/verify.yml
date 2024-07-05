@@ -18,19 +18,15 @@ jobs:
           ref: ${{ inputs.branch-name }}
 
       # TODO : Has an error on the reading JSON
-      - name: Read JSON file
-        id: json_read
-        shell: bash
-        run: |
-          echo ${{ inputs.branch-name }}
-          content=`cat ./info.json`
-          content="${content//'%'/'%25'}"
-          content="${content//$'\n'/'%0A'}"
-          content="${content//$'\r'/'%0D'}"
+      - name: read-yaml-file
+        uses: pietrobolcato/action-read-yaml@1.0.0
+        id: read_action_js
+        with:
+          config: ${{ github.workspace }}/.github/workflows/info.yaml
           
       - run: |
-          echo "config_path=${{ steps.json_read.outputs.config_path }}" >> $GITHUB_OUTPUT
-          echo "folder_path=${{ steps.json_read.outputs.folder_path }}" >> $GITHUB_OUTPUT
+          echo "config_path=${{ steps.read-yaml-file.outputs['config_path'] }}" >> $GITHUB_OUTPUT
+          echo "folder_path=${{ steps.read-yaml-file.outputs['folder_path'] }}" >> $GITHUB_OUTPUT
 
       - name: Download and extract directory
         run: |
