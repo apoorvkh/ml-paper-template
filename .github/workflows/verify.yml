@@ -83,10 +83,12 @@ jobs:
           pdftoppm -jpeg -r 300 CVPR-2024-main/main.pdf output_temp 
           
       # TODO : Include the magick
+      - uses: mfinelli/setup-imagemagick@v5
+
       - name: Compare images
         run: |
           for i in $(seq 1 5); do
-            ./magick compare output-${i}.jpg output_temp-${i}.jpg diff_${i}.jpg
+            magick compare output-${i}.jpg output_temp-${i}.jpg diff_${i}.jpg
           done
 
 
