@@ -23,15 +23,11 @@ jobs:
         id: read_action_js
         with:
           config: ${{ github.workspace }}/.github/workflows/info.yaml
-          
-      - run: |
-          echo "config_path=${{ steps.read_action_js.outputs['config_path'] }}" >> $GITHUB_OUTPUT
-          echo "folder_path=${{ steps.read_action_js.outputs['folder_path'] }}" >> $GITHUB_OUTPUT
 
       - name: Download and extract directory
         run: |
-          echo ${{ steps.read_action_js.outputs['config_path'] }}"
-          curl -L ${{ steps.read_action_js.outputs['config_path'] }}" -o initial.tar.gz
+          echo ${{ steps.read_action_js.outputs['config_path'] }}
+          curl -L ${{ steps.read_action_js.outputs['config_path'] }} -o initial.tar.gz
           tar -xf initial.tar.gz
           rm -f initial.tar.gz
           mv ${{ steps.read_action_js.outputs['folder_path'] }} CVPR-2024-main
