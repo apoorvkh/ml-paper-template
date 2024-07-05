@@ -25,7 +25,7 @@ jobs:
           config: ${{ github.workspace }}/.github/workflows/info.yaml
 
       - name: Download and extract directory with tar
-        if: endsWith(${{ steps.read_action_js.outputs['config_path'] }}, 'gz')
+        if: ${{ endsWith(steps.read_action_js.outputs['config_path'], 'gz') }}
         run: |
           echo ${{ steps.read_action_js.outputs['config_path'] }}
           curl -L ${{ steps.read_action_js.outputs['config_path'] }} -o initial.tar.gz
@@ -34,7 +34,7 @@ jobs:
           mv ${{ steps.read_action_js.outputs['folder_path'] }} CVPR-2024-main
       
       - name: Download and extract directory with tar
-        if: endsWith(${{ steps.read_action_js.outputs['config_path'] }}, 'zip')
+        if: ${{ endsWith(steps.read_action_js.outputs['config_path'], 'zip') }}
         run: |
           echo ${{ steps.read_action_js.outputs['config_path'] }}
           curl -L ${{ steps.read_action_js.outputs['config_path'] }} -o initial.zip
