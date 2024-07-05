@@ -25,8 +25,8 @@ jobs:
           config: ${{ github.workspace }}/.github/workflows/info.yaml
           
       - run: |
-          echo "config_path=${{ steps.read-yaml-file.outputs['config_path'] }}" >> $GITHUB_OUTPUT
-          echo "folder_path=${{ steps.read-yaml-file.outputs['folder_path'] }}" >> $GITHUB_OUTPUT
+          echo "config_path=${{ steps.read_action_js.outputs['config_path'] }}" >> $GITHUB_OUTPUT
+          echo "folder_path=${{ steps.read_action_js.outputs['folder_path'] }}" >> $GITHUB_OUTPUT
 
       - name: Download and extract directory
         run: |
