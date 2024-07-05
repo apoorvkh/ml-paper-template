@@ -12,7 +12,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
@@ -21,29 +20,15 @@ jobs:
       # TODO : Has an error on the reading JSON
       - name: Read JSON file
         id: json_read
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const fs = require('fs');
-            const path = 'info.json';
-            const info = JSON.parse(fs.readFileSync(path, 'utf8'));
-            return {
-              configPath: info.config_path,
-              folderPath: info.folder_path,
-              name: info.name
-            };
+        run: |
+          content=`cat ./info.json`
+          content="${content//'%'/'%25'}"
+          content="${content//$'\n'/'%0A'}"
+          content="${content//$'\r'/'%0D'}"
           
-      - name: Set output values
-        id: set-outputs
-        run: |
-          echo ${{ steps.json_read.outputs.name }}
-          echo "config_path=${{ steps.json_read.outputs.configPath }}" >> $GITHUB_OUTPUT
-          echo "folder_path=${{ steps.json_read.outputs.folderPath }}" >> $GITHUB_OUTPUT
-      
-      - name: Use values from JSON
-        run: |
-          echo "Config Path: ${{ steps.set-outputs.outputs.config_path }}"
-          echo "Folder Path: ${{ steps.set-outputs.outputs.folder_path }}"
+      - run: |
+          echo "config_path=${{ steps.json_read.outputs.config_path }}" >> $GITHUB_OUTPUT
+          echo "folder_path=${{ steps.json_read.outputs.folder_path }}" >> $GITHUB_OUTPUT
 
       - name: Download and extract directory
         run: |
