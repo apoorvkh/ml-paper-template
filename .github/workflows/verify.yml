@@ -30,11 +30,11 @@ jobs:
 
       - name: Download and extract directory
         run: |
-          echo ${{steps.json_read.outputs.branch}}
-          curl -L ${{steps.json_read.outputs.configPath}} -o initial.tar.gz
+          echo ${{ steps.read_action_js.outputs['config_path'] }}"
+          curl -L ${{ steps.read_action_js.outputs['config_path'] }}" -o initial.tar.gz
           tar -xf initial.tar.gz
           rm -f initial.tar.gz
-          mv ${{steps.json_read.outputs.folderPath}} CVPR-2024-main
+          mv ${{ steps.read_action_js.outputs['folder_path'] }} CVPR-2024-main
 
       - name: Clone ml-paper-template
         run: |
