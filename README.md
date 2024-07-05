@@ -9,16 +9,11 @@ template starts from the first line, or the title.
 3. There is no indent before the start of the paragraph
 4. Different font in the link
 
-## Solutions 
+## Usage:
 
-## Wed Apr 3
-- Current Solution : 
-cvpr temp --pdftoppm--> bunch of jpg --> Compare page by page, return for each page
-latex temp --pdftoppm--> bunch of jpg /
-- Drawbacks :
-    - Too Strict? ==> Maybe we could use the aclpubcheck-ish? but we'll kinda need manual work for the future update
-    - Make sure that both have the same settings : Paper ID are the same
-
-- Github Actions (Automatic) :
-    - Can find the latexmk on the Github Action instead of "load" of the texlive
-    - How to make a repo that contains a payload. 
+## Development:
+1. For each new conference, create the new branch representing that conference (may make the better approach when mass creating them later)
+2. With that conference, create two following files under the folder .github/workflows
+   - verification.yml : Writing the workflow that triggers the verify workflow from the main verify branch
+   - info.yaml (should it be yml instead) : Writing the info about the location of the template folder (either in tar or zip format), and the name of the folder after deserialize. Check the conf/cvpr2024 for the example
+3. Push the information to the Github

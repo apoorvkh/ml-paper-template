@@ -33,7 +33,7 @@ jobs:
           rm -f initial.tar.gz
           mv ${{ steps.read_action_js.outputs['folder_path'] }} CVPR-2024-main
       
-      - name: Download and extract directory with tar
+      - name: Download and extract directory with zip
         if: ${{ endsWith(steps.read_action_js.outputs['config_path'], 'zip') }}
         run: |
           echo ${{ steps.read_action_js.outputs['config_path'] }}
