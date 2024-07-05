@@ -83,7 +83,7 @@ jobs:
           options: --skip-identical --output-diff=diff.pdf --dpi=100
           suppress-diff-error: true
       
-      - name: Upload math result for job 1
+      - name: Upload diff result
         uses: actions/upload-artifact@v4
         with:
           name: difference pdf
