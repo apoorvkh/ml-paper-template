@@ -73,13 +73,13 @@ jobs:
         uses: hspaans/latexmk-action@v1
         with:
           format: pdf
-          filename: -cd ./CVPR-2024-main/${{ steps.read_action_js.outputs['main_file'] }}
+          filename: -cd ./CVPR-2024-main/${{ steps.read_action_js.outputs['main_file'] }}.tex
 
       # Use the diff-pdf instead
       - uses: nowsprinting/diff-pdf-action@v1
         with:
-          file1: CVPR-2024-main/main.pdf
-          file2: CVPR-2024-main/main.pdf
+          file1: CVPR-2024-main/${{ steps.read_action_js.outputs['main_file'] }}.pdf
+          file2: CVPR-2024-main/${{ steps.read_action_js.outputs['main_file'] }}.pdf
           options: --skip-identical --output-diff=diff.pdf --dpi=100
           suppress-diff-error: true
       
