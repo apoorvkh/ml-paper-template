@@ -45,41 +45,24 @@ jobs:
       - name: Clone ml-paper-template
         run: |
           git clone https://github.com/apoorvkh/ml-paper-template.git
-          
-      # - name: Copy contents from CVPR 2024
-      #   run: |
-      #     cp -r CVPR-2024-main/sec ml-paper-template-testing/
-      #     cp -f CVPR-2024-main/main.tex ml-paper-template-testing/
-      #     cp -f CVPR-2024-main/cvpr.sty ml-paper-template-testing/cvpr.sty
-
-      # - name: Rename original cvpr conference file 
-      #   run: | 
-      #     mv CVPR-2024-main/main.tex CVPR-2024-main/cvpr_template.tex
-      #     cd CVPR-2024-main
 
       - name: Render PDF cvpr2024
         uses: hspaans/latexmk-action@v1
         with:
           format: pdf
           filename: -cd ./CVPR-2024-main/${{ steps.read_action_js.outputs['main_file'] }}
-
-      # - name: Rename original ml-paper conference file 
-      #   run: |
-      #     cd ..
-      #     mv ml-paper-template/main.tex ml-paper-template/ml_template.tex
-      #     cd ml-paper-template
       
       - name: Render PDF ml-paper
         uses: hspaans/latexmk-action@v1
         with:
           format: pdf
-          filename: -cd ./CVPR-2024-main/${{ steps.read_action_js.outputs['main_file'] }}.tex
+          filename: -cd ./ml-paper-template/main.tex
 
       # Use the diff-pdf instead
       - uses: nowsprinting/diff-pdf-action@v1
         with:
           file1: CVPR-2024-main/${{ steps.read_action_js.outputs['main_file'] }}.pdf
-          file2: CVPR-2024-main/${{ steps.read_action_js.outputs['main_file'] }}.pdf
+          file2: ml-paper-template/main.pdf
           options: --skip-identical --output-diff=diff.pdf --dpi=100
           suppress-diff-error: true
       
