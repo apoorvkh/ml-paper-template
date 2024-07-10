@@ -12,6 +12,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Restore cached Primes
+        id: cache-latexmk-restore
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            path/to/dependencies
+            some/other/dependencies
+          key: ${{ runner.os }}-${{ hashFiles('./github/info.json') }}
+
+      - name: Save Primes
+        id: cache-latexmk-save
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            path/to/dependencies
+            some/other/dependencies
+          key: ${{ runner.os }}-${{ hashFiles('./github/info.json') }}
+          
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
