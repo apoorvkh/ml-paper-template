@@ -1,0 +1,93 @@
+# verify.yml
+
+on: 
+  workflow_call:
+    inputs:
+      branch-name:
+        required: true
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Restore cached Primes
+        id: cache-latexmk-restore
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            path/to/dependencies
+            some/other/dependencies
+          key: ${{ runner.os }}-${{ hashFiles('./github/info.json') }}
+
+      - name: Save Primes
+        id: cache-latexmk-save
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            path/to/dependencies
+            some/other/dependencies
+          key: ${{ runner.os }}-${{ hashFiles('./github/info.json') }}
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch-name }}
+
+      # TODO : Has an error on the reading JSON
+      - name: read-yaml-file
+        uses: pietrobolcato/action-read-yaml@1.0.0
+        id: read_action_js
+        with:
+          config: ${{ github.workspace }}/.github/info.yaml
+
+      - name: Download and extract directory with tar
+        if: ${{ endsWith(steps.read_action_js.outputs['config_path'], 'gz') }}
+        run: |
+          echo ${{ steps.read_action_js.outputs['config_path'] }}
+          curl -L ${{ steps.read_action_js.outputs['config_path'] }} -o initial.tar.gz
+          tar -xf initial.tar.gz
+          rm -f initial.tar.gz
+          mv ${{ steps.read_action_js.outputs['folder_path'] }} CVPR-2024-main
+      
+      - name: Download and extract directory with zip
+        if: ${{ endsWith(steps.read_action_js.outputs['config_path'], 'zip') }}
+        run: |
+          echo ${{ steps.read_action_js.outputs['config_path'] }}
+          curl -L ${{ steps.read_action_js.outputs['config_path'] }} -o initial.zip
+          unzip initial.zip
+          rm -f initial.zip
+          mv ${{ steps.read_action_js.outputs['folder_path'] }} CVPR-2024-main
+
+      - name: Clone ml-paper-template
+        run: |
+          git clone https://github.com/apoorvkh/ml-paper-template.git
+
+      - name: Render PDF cvpr2024
+        uses: hspaans/latexmk-action@v1
+        with:
+          format: pdf
+          filename: -cd ./CVPR-2024-main/${{ steps.read_action_js.outputs['main_file'] }}
+      
+      - name: Render PDF ml-paper
+        uses: hspaans/latexmk-action@v1
+        with:
+          format: pdf
+          filename: -cd ./ml-paper-template/main.tex
+
+      # Use the diff-pdf instead
+      - uses: nowsprinting/diff-pdf-action@v1
+        with:
+          file1: CVPR-2024-main/${{ steps.read_action_js.outputs['main_file'] }}.pdf
+          file2: ml-paper-template/main.pdf
+          options: --skip-identical --output-diff=diff.pdf --dpi=100
+          suppress-diff-error: true
+      
+      - name: Upload diff result
+        uses: actions/upload-artifact@v4
+        with:
+          name: difference pdf
+          path: diff.pdf
+
+
