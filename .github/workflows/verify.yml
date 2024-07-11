@@ -17,6 +17,11 @@ jobs:
         with:
           ref: ${{ inputs.branch-name }}
 
+      - name: Cache Docker images.
+        uses: ScribeMD/docker-cache@0.5.0
+        with:
+          key: docker-${{ runner.os }}-${{ hashFiles('./github/info.json') }}
+          
       # TODO : Has an error on the reading JSON
       - name: read-yaml-file
         uses: pietrobolcato/action-read-yaml@1.0.0
@@ -45,11 +50,6 @@ jobs:
       - name: Clone ml-paper-template
         run: |
           git clone https://github.com/apoorvkh/ml-paper-template.git
-
-      - name: Cache Docker images.
-        uses: ScribeMD/docker-cache@0.5.0
-        with:
-          key: docker-${{ runner.os }}-${{ hashFiles('./github/info.json') }}
 
       - name: Render PDF cvpr2024
         uses: hspaans/latexmk-action@v1
