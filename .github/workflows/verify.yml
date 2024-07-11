@@ -11,25 +11,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    steps:
-      - name: Restore cached Primes
-        id: cache-latexmk-restore
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            path/to/dependencies
-            some/other/dependencies
-          key: ${{ runner.os }}-${{ hashFiles('./github/info.json') }}
-
-      - name: Save Primes
-        id: cache-latexmk-save
-        uses: actions/cache/save@v4
-        with:
-          path: |
-            path/to/dependencies
-            some/other/dependencies
-          key: ${{ runner.os }}-${{ hashFiles('./github/info.json') }}
-          
+    steps:          
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
@@ -64,11 +46,16 @@ jobs:
         run: |
           git clone https://github.com/apoorvkh/ml-paper-template.git
 
+      - name: Cache Docker images.
+        uses: ScribeMD/docker-cache@0.5.0
+        with:
+          key: docker-${{ runner.os }}-${{ hashFiles('./github/info.json') }}
+
       - name: Render PDF cvpr2024
         uses: hspaans/latexmk-action@v1
         with:
           format: pdf
-          filename: -cd ./CVPR-2024-main/${{ steps.read_action_js.outputs['main_file'] }}
+          filename: -cd ./CVPR-2024-main/${{ steps.read_action_js.outputs['main_file'] }}.tex
       
       - name: Render PDF ml-paper
         uses: hspaans/latexmk-action@v1
