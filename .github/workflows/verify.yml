@@ -16,11 +16,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ inputs.branch-name }}
-
-      - name: Cache Docker images.
-        uses: ScribeMD/docker-cache@0.5.0
-        with:
-          key: docker-${{ runner.os }}-${{ hashFiles('./github/info.json') }}
           
       # TODO : Has an error on the reading JSON
       - name: read-yaml-file
@@ -51,7 +46,23 @@ jobs:
         run: |
           git clone https://github.com/apoorvkh/ml-paper-template.git
 
+      # Cache Dependencies on latexmk
+      - name: Cache latexmk 
+        id: cache-latex
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-latexmk
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/.github/info.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
       - name: Render PDF cvpr2024
+        if: ${{ steps.cache-latex.outputs.cache-hit != 'true' }}
         uses: hspaans/latexmk-action@v1
         with:
           format: pdf
