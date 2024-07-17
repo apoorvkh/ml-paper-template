@@ -60,7 +60,7 @@ jobs:
           mkdir ${{ inputs.branch-name }}
           cd conf
           ls
-          cd ../${{ inputs.branch-name }}
+          cd cvpr2024
           git checkout ${{ inputs.branch-name }} *
           cd ../..
 
