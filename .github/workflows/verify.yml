@@ -11,19 +11,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    steps:          
+    steps:    
+      # 1. Checkout to the repository with the determined branch name
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           ref: ${{ inputs.branch-name }}
           
-      # TODO : Has an error on the reading JSON
+      # 2. Read the YML file preparing the input for the config_path and the folder_path
       - name: read-yaml-file
         uses: pietrobolcato/action-read-yaml@1.0.0
         id: read_action_js
         with:
           config: ${{ github.workspace }}/.github/info.yaml
 
+      # 3.1 Deserializing the files : Tar version
       - name: Download and extract directory with tar
         if: ${{ endsWith(steps.read_action_js.outputs['config_path'], 'gz') }}
         run: |
@@ -33,6 +35,7 @@ jobs:
           rm -f initial.tar.gz
           mv ${{ steps.read_action_js.outputs['folder_path'] }} CVPR-2024-main
       
+      # 3.2 Deserializing the files : Zip version
       - name: Download and extract directory with zip
         if: ${{ endsWith(steps.read_action_js.outputs['config_path'], 'zip') }}
         run: |
@@ -42,46 +45,51 @@ jobs:
           rm -f initial.zip
           mv ${{ steps.read_action_js.outputs['folder_path'] }} CVPR-2024-main
 
-      - name: Clone ml-paper-template
-        run: |
-          git clone https://github.com/apoorvkh/ml-paper-template.git
-
-      # Cache Dependencies on latexmk
-      - name: Cache latexmk 
-        id: cache-latex
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-latexmk
+      # Problem : Having an issue in rendering the ml-paper-template
+      # Cause : Right now it's a clone of the same repo but on main into the branch
+      # Solution : Go back to main and copy all files of branch into the main
+      # 4. Change back to main
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
-          # npm cache files are stored in `~/.npm` on Linux/macOS
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/.github/info.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
+          ref: main
 
+      # 5. Move all files from the branch into the folder
+      - name: Move all files from branch
+        run: |
+          mkdir ${{ inputs.branch-name }}
+          cd ${{ inputs.branch-name }}
+          git checkout ${{ inputs.branch-name }} *
+          cd ../..
+
+      # 6. Render the PDF based on the conference templates
       - name: Render PDF cvpr2024
-        if: ${{ steps.cache-latex.outputs.cache-hit != 'true' }}
         uses: hspaans/latexmk-action@v1
         with:
           format: pdf
-          filename: -cd ./CVPR-2024-main/${{ steps.read_action_js.outputs['main_file'] }}.tex
+          filename: -cd ./${{ inputs.branch-name }}/CVPR-2024-main/${{ steps.read_action_js.outputs['main_file'] }}.tex
       
+      # 7. Hacky approach: Change the file name
+      - name: Change the pdf name
+        run: |
+          mv ${{ steps.read_action_js.outputs['main_file'] }}.pdf original.pdf
+          
+      # 8. Render the PDF based on our templates with the same contents with the conference
       - name: Render PDF ml-paper
         uses: hspaans/latexmk-action@v1
         with:
           format: pdf
           filename: -cd ./ml-paper-template/main.tex
 
-      # Use the diff-pdf instead
+      # 9. Use the diff-pdf to find the difference between two papers
       - uses: nowsprinting/diff-pdf-action@v1
         with:
-          file1: CVPR-2024-main/${{ steps.read_action_js.outputs['main_file'] }}.pdf
+          file1: ml-paper-template/original.pdf
           file2: ml-paper-template/main.pdf
           options: --skip-identical --output-diff=diff.pdf --dpi=100
           suppress-diff-error: true
       
+      # 10. Upload the difference between two papers                                                                 
       - name: Upload diff result
         uses: actions/upload-artifact@v4
         with:
