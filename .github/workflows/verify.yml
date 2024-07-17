@@ -58,7 +58,9 @@ jobs:
       - name: Move all files from branch
         run: |
           mkdir ${{ inputs.branch-name }}
-          cd ${{ inputs.branch-name }}
+          cd conf
+          ls
+          cd ../${{ inputs.branch-name }}
           git checkout ${{ inputs.branch-name }} *
           cd ../..
 
