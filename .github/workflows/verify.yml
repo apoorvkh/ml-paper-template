@@ -56,10 +56,10 @@ jobs:
 
       # 5. Move all files from the branch into the folder
       - name: Move all files from branch
-        run: |
-          mkdir ${{ inputs.branch-name }}
-          cd conf/cvpr2024
-          git restore ${{ inputs.branch-name }} -- *
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch-name }}
+          sparse-checkout: .
 
       # 6. Render the PDF based on the conference templates
       - name: Render PDF cvpr2024
