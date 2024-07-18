@@ -59,7 +59,7 @@ jobs:
         run: |
           mkdir ${{ inputs.branch-name }}
           cd conf/cvpr2024
-          git restore --source ${{ inputs.branch-name }} -- *
+          git restore ${{ inputs.branch-name }} -- *
 
       # 6. Render the PDF based on the conference templates
       - name: Render PDF cvpr2024
