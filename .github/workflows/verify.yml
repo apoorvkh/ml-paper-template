@@ -48,18 +48,34 @@ jobs:
       # Problem : Having an issue in rendering the ml-paper-template
       # Cause : Right now it's a clone of the same repo but on main into the branch
       # Solution : Go back to main and copy all files of branch into the main
-      # 4. Change back to main
+
+  copy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      # 4. Move all files from the branch into the folder
+      - name: copy
+        env:
+          SRC_FOLDER_PATH: 'static'
+          TARGET_BRANCH: 'dest'
+        run: |
+          files=$(find $SRC_FOLDER_PATH -type f) # get the file list
+          git config --global user.name 'GitHub Action'
+          git config --global user.email 'action@github.com'
+          git fetch                         # fetch branches
+          git checkout $TARGET_BRANCH       # checkout to your branch
+          git checkout ${GITHUB_REF##*/} -- $files # copy files from the source branch
+          git add -A
+          git diff-index --quiet HEAD ||  git commit -am "deploy files"  # commit to the repository (ignore if no modification)
+          git push origin $TARGET_BRANCH # push to remote branch
+
+      # 5. Change back to main
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           ref: main
 
-      # 5. Move all files from the branch into the folder
-      - name: Move all files from the branch
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ inputs.branch-name }}
-          sparse-checkout: conf
       # 6. Render the PDF based on the conference templates
       - name: Render PDF cvpr2024
         uses: hspaans/latexmk-action@v1
