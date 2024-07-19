@@ -44,6 +44,11 @@ jobs:
           unzip initial.zip
           rm -f initial.zip
           mv ${{ steps.read_action_js.outputs['folder_path'] }} conf/CVPR-2024-main
+      
+      - name: verify-location
+        run: |
+          cd conf
+          ls
 
       # Problem : Having an issue in rendering the ml-paper-template
       # Cause : Right now it's a clone of the same repo but on main into the branch
