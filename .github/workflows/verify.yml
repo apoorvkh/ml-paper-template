@@ -57,7 +57,7 @@ jobs:
       # 4. Move all files from the branch into the folder
       - name: copy
         env:
-          SRC_FOLDER_PATH: 'conf'
+          SRC_FOLDER_PATH: 'conf/cvpr2024'
           TARGET_BRANCH: 'main'
         run: |
           files=$(find $SRC_FOLDER_PATH -type f) # get the file list
