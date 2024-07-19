@@ -57,8 +57,8 @@ jobs:
       # 4. Move all files from the branch into the folder
       - name: copy
         env:
-          SRC_FOLDER_PATH: 'static'
-          TARGET_BRANCH: 'dest'
+          SRC_FOLDER_PATH: 'conf'
+          TARGET_BRANCH: '${{ inputs.branch-name }}'
         run: |
           files=$(find $SRC_FOLDER_PATH -type f) # get the file list
           git config --global user.name 'GitHub Action'
