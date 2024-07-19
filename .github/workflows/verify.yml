@@ -56,9 +56,10 @@ jobs:
 
       # 5. Move all files from the branch into the folder
       - name: Move all files from the branch
-        run: |
-          git fetch
-          git checkout ${{ inputs.branch-name }} "conf/*"
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch-name }}
+          sparse-checkout: conf
       # 6. Render the PDF based on the conference templates
       - name: Render PDF cvpr2024
         uses: hspaans/latexmk-action@v1
