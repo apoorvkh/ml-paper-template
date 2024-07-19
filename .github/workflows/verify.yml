@@ -33,7 +33,7 @@ jobs:
           curl -L ${{ steps.read_action_js.outputs['config_path'] }} -o initial.tar.gz
           tar -xf initial.tar.gz
           rm -f initial.tar.gz
-          mv ${{ steps.read_action_js.outputs['folder_path'] }} conf/CVPR-2024-main
+          mv ${{ steps.read_action_js.outputs['folder_path'] }} ${{ inputs.branch-name }}/CVPR-2024-main
       
       # 3.2 Deserializing the files : Zip version
       - name: Download and extract directory with zip
@@ -43,12 +43,7 @@ jobs:
           curl -L ${{ steps.read_action_js.outputs['config_path'] }} -o initial.zip
           unzip initial.zip
           rm -f initial.zip
-          mv ${{ steps.read_action_js.outputs['folder_path'] }} conf/CVPR-2024-main
-      
-      - name: verify-location
-        run: |
-          cd conf
-          ls
+          mv ${{ steps.read_action_js.outputs['folder_path'] }} ${{ inputs.branch-name }}/CVPR-2024-main
 
       # Problem : Having an issue in rendering the ml-paper-template
       # Cause : Right now it's a clone of the same repo but on main into the branch
