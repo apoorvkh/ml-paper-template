@@ -1,0 +1,112 @@
+# verify.yml
+
+on: 
+  workflow_call:
+    inputs:
+      branch-name:
+        required: true
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:    
+      # 1. Checkout to the repository with the determined branch name
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch-name }}
+          
+      # 2. Read the YML file preparing the input for the config_path and the folder_path
+      - name: read-yaml-file
+        uses: pietrobolcato/action-read-yaml@1.0.0
+        id: read_action_js
+        with:
+          config: ${{ github.workspace }}/.github/info.yaml
+
+      # 3.1 Deserializing the files : Tar version
+      - name: Download and extract directory with tar
+        if: ${{ endsWith(steps.read_action_js.outputs['config_path'], 'gz') }}
+        run: |
+          echo ${{ steps.read_action_js.outputs['config_path'] }}
+          curl -L ${{ steps.read_action_js.outputs['config_path'] }} -o initial.tar.gz
+          tar -xf initial.tar.gz
+          rm -f initial.tar.gz
+          mv ${{ steps.read_action_js.outputs['folder_path'] }} CVPR-2024-main
+      
+      # 3.2 Deserializing the files : Zip version
+      - name: Download and extract directory with zip
+        if: ${{ endsWith(steps.read_action_js.outputs['config_path'], 'zip') }}
+        run: |
+          echo ${{ steps.read_action_js.outputs['config_path'] }}
+          curl -L ${{ steps.read_action_js.outputs['config_path'] }} -o initial.zip
+          unzip initial.zip
+          rm -f initial.zip
+          mv ${{ steps.read_action_js.outputs['folder_path'] }} CVPR-2024-main
+
+      # Problem : Having an issue in rendering the ml-paper-template
+      # Cause : Right now it's a clone of the same repo but on main into the branch
+      # Solution : Go back to main and copy all files of branch into the main
+  copy:
+    name: Copy my folder
+    runs-on: ubuntu-latest
+    steps:
+      # 4. Move all files from the branch into the folder
+      - uses: actions/checkout@v2
+      - name: copy
+        env:
+          SRC_FOLDER_PATH: 'conf'
+          TARGET_BRANCH: 'main'
+        run: |
+          files=$(find $SRC_FOLDER_PATH -type f) # get the file list
+          git config --global user.name 'GitHub Action'
+          git config --global user.email 'action@github.com'
+          git fetch                         # fetch branches
+          git checkout $TARGET_BRANCH       # checkout to your branch
+          git checkout ${GITHUB_REF##*/} -- $files # copy files from the source branch
+          git add -A
+          git diff-index --quiet HEAD ||  git commit -am "deploy files"  # commit to the repository (ignore if no modification)
+          git push origin $TARGET_BRANCH # push to remote branch
+
+      # 5. Change back to main
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      # 6. Render the PDF based on the conference templates
+      - name: Render PDF cvpr2024
+        uses: hspaans/latexmk-action@v1
+        with:
+          format: pdf
+          filename: -cd ./${{ inputs.branch-name }}/CVPR-2024-main/${{ steps.read_action_js.outputs['main_file'] }}.tex
+      
+      # 7. Hacky approach: Change the file name
+      - name: Change the pdf name
+        run: |
+          mv ${{ steps.read_action_js.outputs['main_file'] }}.pdf original.pdf
+          
+      # 8. Render the PDF based on our templates with the same contents with the conference
+      - name: Render PDF ml-paper
+        uses: hspaans/latexmk-action@v1
+        with:
+          format: pdf
+          filename: -cd ./ml-paper-template/main.tex
+
+      # 9. Use the diff-pdf to find the difference between two papers
+      - uses: nowsprinting/diff-pdf-action@v1
+        with:
+          file1: ml-paper-template/original.pdf
+          file2: ml-paper-template/main.pdf
+          options: --skip-identical --output-diff=diff.pdf --dpi=100
+          suppress-diff-error: true
+      
+      # 10. Upload the difference between two papers                                                                 
+      - name: Upload diff result
+        uses: actions/upload-artifact@v4
+        with:
+          name: difference pdf
+          path: diff.pdf
+
+
