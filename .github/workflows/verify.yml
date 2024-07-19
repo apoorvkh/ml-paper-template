@@ -80,6 +80,10 @@ jobs:
         with:
           ref: main
 
+      - name: check-result
+        run: |
+          cd conf/cvpr2024
+          ls
       # 6. Render the PDF based on the conference templates
       - name: Render PDF cvpr2024
         uses: hspaans/latexmk-action@v1
