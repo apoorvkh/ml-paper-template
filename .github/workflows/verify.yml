@@ -17,6 +17,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ inputs.branch-name }}
+          path: "*"
           
       # 2. Read the YML file preparing the input for the config_path and the folder_path
       - name: read-yaml-file
