@@ -12,6 +12,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:    
+      # 0. Chechout to main
+      - uses: actions/checkout@v4
       # 1. Checkout to the repository with the determined branch name
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -24,7 +26,7 @@ jobs:
         uses: pietrobolcato/action-read-yaml@1.0.0
         id: read_action_js
         with:
-          config: ${{ github.workspace }}/${{ inputs.branch-name }}/.github/info.yaml
+          config: ${{ inputs.branch-name }}/.github/info.yaml
 
       # 3.1 Deserializing the files : Tar version
       - name: Download and extract directory with tar
