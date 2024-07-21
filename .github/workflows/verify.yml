@@ -17,11 +17,13 @@ jobs:
         with:
           ref: main
       # 1. Checkout to the repository with the determined branch name
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Push generated webpage to another repository
+        uses: nkoppel/push-files-to-another-repository@v1.1.3
         with:
-          ref: ${{ inputs.branch-name }}
-          sparse-checkout: .github
+          source-files: '.github/'
+          destination-username: 'apoorvkh'
+          destination-repository: 'ml-paper-template'
+          destination-directory: 'conf/cvpr2024'
           
       - name: check-branch
         run: |
