@@ -15,7 +15,7 @@ jobs:
       # 0. Chechout to main
       - uses: actions/checkout@v4
         with:
-          ref: main
+          ref: ${{ inputs.branch-name }}
       # 1. Checkout to the repository with the determined branch name
       - name: Push generated webpage to another repository
         uses: nkoppel/push-files-to-another-repository@v1.1.3
@@ -23,8 +23,13 @@ jobs:
           source-files: '.github/'
           destination-username: 'apoorvkh'
           destination-repository: 'ml-paper-template'
+          destination-branch: 'main'
           destination-directory: 'conf/cvpr2024'
-          
+      
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
       - name: check-branch
         run: |
           cd conf/cvpr2024
