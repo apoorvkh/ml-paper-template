@@ -21,9 +21,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ inputs.branch-name }}
-          sparse-checkout: |
-            "*"
-            .github
+          sparse-checkout: .github
           
       - name: check-branch
         run: |
