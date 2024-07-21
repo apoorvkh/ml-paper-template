@@ -23,10 +23,11 @@ jobs:
           cd ${{ inputs.branch-name }}
           git clone -b ${{ inputs.branch-name }} https://github.com/apoorvkh/ml-paper-template.git
           
-      - name: check-branch
+      - name: check-branch and move files
         run: |
-          cd conf/cvpr2024/ml-paper-template
+          cd conf/cvpr2024
           ls
+          mv ml-paper-template/* .
       
       # 2. Read the YML file preparing the input for the config_path and the folder_path
       - name: read-yaml-file
