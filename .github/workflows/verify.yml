@@ -22,6 +22,7 @@ jobs:
           mkdir ${{ inputs.branch-name }}
           cd ${{ inputs.branch-name }}
           git clone -b ${{ inputs.branch-name }} https://github.com/apoorvkh/ml-paper-template.git
+          cd conf/cvpr2024; ls
           mv conf/cvpr2024/ml-paper-template/* conf/cvpr2024/ 
           
       - name: check-branch
