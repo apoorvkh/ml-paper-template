@@ -22,8 +22,6 @@ jobs:
           mkdir ${{ inputs.branch-name }}
           cd ${{ inputs.branch-name }}
           git clone -b ${{ inputs.branch-name }} https://github.com/apoorvkh/ml-paper-template.git
-          cd conf/cvpr2024; ls
-          mv conf/cvpr2024/ml-paper-template/* conf/cvpr2024/ 
           
       - name: check-branch
         run: |
@@ -35,7 +33,7 @@ jobs:
         uses: pietrobolcato/action-read-yaml@1.0.0
         id: read_action_js
         with:
-          config: ${{ github.workspace }}/${{ inputs.branch-name }}/.github/info.yaml
+          config: ${{ github.workspace }}/${{ inputs.branch-name }}/ml-paper-template/.github/info.yaml
 
       # 3.1 Deserializing the files : Tar version
       - name: Download and extract directory with tar
