@@ -25,6 +25,7 @@ jobs:
           
       - name: check-branch
         run: |
+          cd conf
           ls
       
       # 2. Read the YML file preparing the input for the config_path and the folder_path
