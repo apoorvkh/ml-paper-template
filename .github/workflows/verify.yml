@@ -87,8 +87,8 @@ jobs:
       # 7. Use the diff-pdf to find the difference between two papers
       - uses: nowsprinting/diff-pdf-action@v1
         with:
-          file1: ml-paper-template/original.pdf
-          file2: ml-paper-template/main.pdf
+          file1: original.pdf
+          file2: main.pdf
           options: --skip-identical --output-diff=diff.pdf --dpi=100
           suppress-diff-error: true
       
