@@ -55,10 +55,6 @@ jobs:
           rm -f initial.zip
           mv ${{ steps.read_action_js.outputs['folder_path'] }} ${{ inputs.branch-name }}/CVPR-2024-main
 
-      - name: check-result
-        run: |
-          cd conf/cvpr2024
-          ls
       # Problem : Having an issue in rendering the ml-paper-template
       # Cause : Right now it's a clone of the same repo but on main into the branch
       # Solution : Go back to main and copy all files of branch into the main
@@ -70,10 +66,15 @@ jobs:
           format: pdf
           filename: -cd ./${{ inputs.branch-name }}/CVPR-2024-main/${{ steps.read_action_js.outputs['main_file'] }}.tex
       
+      - name: check-result
+        run: |
+          ls
+          cd conf/cvpr2024/ml-paper-template
+          ls
       # 5. Hacky approach: Change the file name
       - name: Change the pdf name
         run: |
-          mv ${{ steps.read_action_js.outputs['main_file'] }}.pdf original.pdf
+          mv ${{ inputs.branch-name }}/CVPR-2024-main/${{ steps.read_action_js.outputs['main_file'] }}.pdf original.pdf
           
       # 6. Render the PDF based on our templates with the same contents with the conference
       - name: Render PDF ml-paper
