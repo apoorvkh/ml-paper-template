@@ -21,12 +21,16 @@ jobs:
           ref: ${{ inputs.branch-name }}
           path: "*"
           
+      - name: check-branch
+        run: |
+          ls
+      
       # 2. Read the YML file preparing the input for the config_path and the folder_path
       - name: read-yaml-file
         uses: pietrobolcato/action-read-yaml@1.0.0
         id: read_action_js
         with:
-          config: /home/runner/work/ml-paper-template/${{ inputs.branch-name }}/.github/info.yaml
+          config: ${{ github.workspace }}/${{ inputs.branch-name }}/.github/info.yaml
 
       # 3.1 Deserializing the files : Tar version
       - name: Download and extract directory with tar
