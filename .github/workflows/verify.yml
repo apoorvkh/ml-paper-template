@@ -44,7 +44,7 @@ jobs:
           curl -L ${{ steps.read_action_js.outputs['config_path'] }} -o initial.tar.gz
           tar -xf initial.tar.gz
           rm -f initial.tar.gz
-          mv ${{ steps.read_action_js.outputs['folder_path'] }} ${{ inputs.branch-name }}/CVPR-2024-main
+          mv ${{ steps.read_action_js.outputs['folder_path'] }} ${{ inputs.branch-name }}/original-template
       
       # 3.2 Deserializing the files : Zip version
       - name: Download and extract directory with zip
@@ -54,7 +54,7 @@ jobs:
           curl -L ${{ steps.read_action_js.outputs['config_path'] }} -o initial.zip
           unzip initial.zip
           rm -f initial.zip
-          mv ${{ steps.read_action_js.outputs['folder_path'] }} ${{ inputs.branch-name }}/CVPR-2024-main
+          mv ${{ steps.read_action_js.outputs['folder_path'] }} ${{ inputs.branch-name }}/original-template
 
       # Problem : Having an issue in rendering the ml-paper-template
       # Cause : Right now it's a clone of the same repo but on main into the branch
@@ -65,17 +65,12 @@ jobs:
         uses: hspaans/latexmk-action@v1
         with:
           format: pdf
-          filename: -cd ./${{ inputs.branch-name }}/CVPR-2024-main/${{ steps.read_action_js.outputs['main_file'] }}.tex
+          filename: -cd ./${{ inputs.branch-name }}/original-template/${{ steps.read_action_js.outputs['main_file'] }}.tex
       
-      - name: check-result
-        run: |
-          ls
-          cd conf/cvpr2024
-          ls
       # 5. Hacky approach: Change the file name
       - name: Change the pdf name
         run: |
-          mv ${{ inputs.branch-name }}/CVPR-2024-main/${{ steps.read_action_js.outputs['main_file'] }}.pdf original.pdf
+          mv ${{ inputs.branch-name }}/original-template/${{ steps.read_action_js.outputs['main_file'] }}.pdf original.pdf
           
       # 6. Render the PDF based on our templates with the same contents with the conference
       - name: Render PDF ml-paper
