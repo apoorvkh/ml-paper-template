@@ -63,57 +63,26 @@ jobs:
       # Cause : Right now it's a clone of the same repo but on main into the branch
       # Solution : Go back to main and copy all files of branch into the main
 
-  copy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      # 4. Move all files from the branch into the folder
-      - name: copy
-        env:
-          SRC_FOLDER_PATH: 'conf'
-          TARGET_BRANCH: 'main'
-        run: |
-          files=$(find $SRC_FOLDER_PATH -type f) # get the file list
-          git config --global user.name 'GitHub Action'
-          git config --global user.email 'action@github.com'
-          git fetch                         # fetch branches
-          git checkout $TARGET_BRANCH       # checkout to your branch
-          git checkout ${{ inputs.branch-name }} -- $files # copy files from the source branch
-          git add -A
-          git diff-index --quiet HEAD ||  git commit -am "deploy files"  # commit to the repository (ignore if no modification)
-          git push origin $TARGET_BRANCH # push to remote branch
-
-      # 5. Change back to main
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          ref: main
-
-      - name: check-result
-        run: |
-          cd conf/cvpr2024
-          ls
-      # 6. Render the PDF based on the conference templates
+      # 4. Render the PDF based on the conference templates
       - name: Render PDF cvpr2024
         uses: hspaans/latexmk-action@v1
         with:
           format: pdf
           filename: -cd ./${{ inputs.branch-name }}/CVPR-2024-main/${{ steps.read_action_js.outputs['main_file'] }}.tex
       
-      # 7. Hacky approach: Change the file name
+      # 5. Hacky approach: Change the file name
       - name: Change the pdf name
         run: |
           mv ${{ steps.read_action_js.outputs['main_file'] }}.pdf original.pdf
           
-      # 8. Render the PDF based on our templates with the same contents with the conference
+      # 6. Render the PDF based on our templates with the same contents with the conference
       - name: Render PDF ml-paper
         uses: hspaans/latexmk-action@v1
         with:
           format: pdf
           filename: -cd ./ml-paper-template/main.tex
 
-      # 9. Use the diff-pdf to find the difference between two papers
+      # 7. Use the diff-pdf to find the difference between two papers
       - uses: nowsprinting/diff-pdf-action@v1
         with:
           file1: ml-paper-template/original.pdf
@@ -121,7 +90,7 @@ jobs:
           options: --skip-identical --output-diff=diff.pdf --dpi=100
           suppress-diff-error: true
       
-      # 10. Upload the difference between two papers                                                                 
+      # 8. Upload the difference between two papers                                                                 
       - name: Upload diff result
         uses: actions/upload-artifact@v4
         with:
