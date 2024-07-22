@@ -96,5 +96,19 @@ jobs:
         with:
           name: difference_pdf
           path: diff.pdf
+      
+      # 11. [Validation Process] Upload the original and main
+      - name: Upload original result
+        uses: actions/upload-artifact@v4
+        with:
+          name: original_pdf
+          path: original.pdf
+
+      - name: Upload main result
+        uses: actions/upload-artifact@v4
+        with:
+          name: main_pdf
+          path: main.pdf
+
 
 
