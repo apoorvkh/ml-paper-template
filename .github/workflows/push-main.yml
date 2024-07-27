@@ -21,7 +21,6 @@ jobs:
           BRANCHES=$(git branch -a --format='%(refname:lstrip=3)' | grep 'conf/' | jq -R . | jq -sc .)
           echo "branches=$BRANCHES" >> $GITHUB_OUTPUT
 
-  # # TODO: invoke the verify workflow and pass the name of this single branch (i.e. ${{ matrix.branches }})
   verify-all-confs:
     needs: get-branches
     strategy:
