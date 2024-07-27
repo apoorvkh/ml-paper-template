@@ -12,7 +12,7 @@
 \newif\ifappendixafterpaper \newcommand{\appendixafterpaper}{\appendixafterpapertrue}
 
 %
-\input{_constants}
+\input{00c_constants}
 
 % use conf style
 \makeatletter
@@ -33,18 +33,18 @@
 \maketitle
 
 %% CONTENT
-\ifpaper \input{0a_contents} \fi
-\ifsupplementary \input{98_appendix} \fi
-\ifrebuttal \input{99_rebuttal} \fi
+\ifpaper \input{00a_contents} \fi
+\ifsupplementary \input{97_appendix} \fi
+\ifrebuttal \input{98_rebuttal} \fi
 
 %% BIBLIOGRAPHY
 {
 \input{_bibstyle}
-\bibliography{anthology, 97_references}
+\bibliography{99_anthology, 99_references}
 }
 
 %% APPENDIX
 % TODO
-\ifappendixafterpaper \clearpage \input{98_appendix} \fi
+\ifappendixafterpaper \clearpage \input{97_appendix} \fi
 
 \end{document}
