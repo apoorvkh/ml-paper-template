@@ -1,5 +1,3 @@
-# updating main branch
-
 on:
   push:
     branches:
@@ -11,8 +9,7 @@ jobs:
     outputs:
       branches: ${{ steps.get-branches.outputs.branches }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
       - name: Get branches
         id: get-branches
@@ -21,7 +18,6 @@ jobs:
           BRANCHES=$(git branch -a --format='%(refname:lstrip=3)' | grep 'conf/' | jq -R . | jq -sc .)
           echo "branches=$BRANCHES" >> $GITHUB_OUTPUT
 
-  # # TODO: invoke the verify workflow and pass the name of this single branch (i.e. ${{ matrix.branches }})
   verify-all-confs:
     needs: get-branches
     strategy:

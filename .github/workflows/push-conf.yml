@@ -1,0 +1,21 @@
+on:
+  push:
+    branches:
+      - 'conf/**'
+
+
+jobs:
+  get-branch-name:
+    runs-on: ubuntu-latest
+    outputs:
+      branches: ${{ steps.get-branch-name.outputs.branch-name }}
+    steps:
+      - uses: actions/checkout@v3
+      - id: get-branch-name
+        run: echo "branch_name=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+
+  verify-conf:
+    needs: get-branch-name
+    uses: apoorvkh/ml-paper-template/.github/workflows/verify.yml@verify
+    with:
+      branch-name: ${{ needs.get-branch-name.outputs.branch-name }}
