@@ -37,7 +37,7 @@ jobs:
       - name: Perform a correct injection
         run: |
 
-          cp -f ${{ inputs.branch-name }}/.github/_verification.tex 0a_contents.tex
+          cp -f ${{ inputs.branch-name }}/ml-paper-template//.github/_verification.tex 0a_contents.tex
       
       # 4. Read the YML file preparing the input for the config_path and the folder_path
       - name: read-yaml-file
