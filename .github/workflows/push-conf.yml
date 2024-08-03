@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - conf/**
+      - conf/cvpr2024
 
 
 jobs:
