@@ -1,7 +1,9 @@
 on:
   push:
-    branches:
-      - 'conf/**'
+    branches-ignore:
+      - 'main'
+      - 'verify'
+      - 'conf-template'
 
 
 jobs:
