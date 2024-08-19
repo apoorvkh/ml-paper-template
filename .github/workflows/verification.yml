@@ -1,12 +1,1 @@
-# ACL specific variables
 
-on:
-  push:
-    branches:
-      - conf/acl2024
-
-jobs:
-  call-workflow-passing-data:
-    uses: apoorvkh/ml-paper-template/.github/workflows/verify.yml@verify
-    with:
-      branch-name: conf/acl2024
