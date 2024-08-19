@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - conf/cvpr2024
+      - 'conf/**'
 
 
 jobs:
@@ -16,6 +16,6 @@ jobs:
 
   verify-conf:
     needs: get-branch-name
-    uses: apoorvkh/ml-paper-template/.github/workflows/verify.yml@verify
+    uses: apoorvkh/ml-paper-template/.github/workflows/verify.yml@utils/verify
     with:
       branch-name: ${{ needs.get-branch-name.outputs.branch-name }}
