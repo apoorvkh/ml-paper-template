@@ -2,10 +2,10 @@
 on:
   push:
     branches:
-      - conf/cvpr2024
+      - conf/neurips2024
 
 jobs:
   call-workflow-passing-data:
     uses: apoorvkh/ml-paper-template/.github/workflows/verify.yml@verify
     with:
-      branch-name: conf/cvpr2024
+      branch-name: conf/neurips2024
