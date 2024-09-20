@@ -16,20 +16,19 @@
 
 % use conf style
 \makeatletter
-\def\input@path{{./conf}}
 \makeatother
 
-\input{_class_options}
+\input{./conf/_class_options}
 \documentclass{\dclass}
 
 % shell script?
 
-\input{_preamble}
-\input{_packages}
-\input{_custom}
+\input{./conf/_preamble.tex}
+\input{./conf/_packages.tex}
+\input{./conf/_custom.tex}
 
 \begin{document}
-\input{_title}
+\input{./conf/_title.tex}
 \maketitle
 
 %% CONTENT
@@ -39,7 +38,7 @@
 
 %% BIBLIOGRAPHY
 {
-\input{_bibstyle}
+\input{./conf/_bibstyle.tex}
 \bibliography{99_anthology, 99_references}
 }
 
