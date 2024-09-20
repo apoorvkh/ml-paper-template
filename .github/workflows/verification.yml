@@ -6,6 +6,6 @@ on:
 
 jobs:
   call-workflow-passing-data:
-    uses: apoorvkh/ml-paper-template/.github/workflows/verify.yml@verify
+    uses: apoorvkh/ml-paper-template/.github/workflows/verify.yml@utils/verify
     with:
       branch-name: conf/neurips2024
