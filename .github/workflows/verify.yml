@@ -105,8 +105,8 @@ jobs:
       - name: Upload original result
         uses: actions/upload-artifact@v4
         with:
-          name: 0a_contents.tex
-          path: 0a_contents.tex
+          name: original_pdf
+          path: original.pdf
 
       - name: Upload main result
         uses: actions/upload-artifact@v4
